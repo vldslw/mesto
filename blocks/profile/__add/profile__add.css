@@ -1,0 +1,9 @@
+.profile__add {
+  width: 150px;
+  height: 50px;
+  box-sizing: border-box;
+  border: 2px solid #FFFFFF;
+  border-radius: 2px;
+  margin-left: auto;
+  align-self: center;
+}

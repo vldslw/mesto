@@ -1,0 +1,10 @@
+.profile__info {
+  align-self: center;
+  display: grid;
+  row-gap: 16px;
+  column-gap: 18px;
+  align-items: end;
+  grid-template-areas:
+    "name edit"
+    "about about";
+}
