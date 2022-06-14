@@ -3,4 +3,5 @@
   height: 24px;
   border: 1px solid #FFFFFF;
   grid-area: edit;
+  display: flex;
 }
