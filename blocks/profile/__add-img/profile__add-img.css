@@ -4,3 +4,10 @@
   margin: 0 auto;
   align-self: center;
 }
+
+@media screen and (max-width: 768px) {
+  .profile__add-img {
+    width: 16px;
+    height: 16px;
+  }
+}

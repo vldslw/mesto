@@ -4,4 +4,12 @@
   border: 1px solid #FFFFFF;
   grid-area: edit;
   display: flex;
+  box-sizing: border-box;
+}
+
+@media screen and (max-width: 768px) {
+  .profile__edit {
+    width: 18px;
+    height: 18px;
+  }
 }

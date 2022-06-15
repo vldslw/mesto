@@ -7,3 +7,16 @@
     "name edit"
     "about about";
 }
+
+@media screen and (max-width: 1080px) {
+  .profile__info {
+    margin-bottom: 25px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .profile__info {
+    margin-bottom: 25px;
+    column-gap: 10px;
+  }
+}
