@@ -1,5 +1,6 @@
 .profile__info {
   align-self: center;
+  margin-right: 18px;
   display: grid;
   column-gap: 18px;
   align-items: center;
