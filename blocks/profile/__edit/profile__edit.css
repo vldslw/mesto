@@ -5,6 +5,7 @@
   grid-area: edit;
   display: flex;
   box-sizing: border-box;
+  cursor: pointer;
 }
 
 .profile__edit:hover {

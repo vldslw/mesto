@@ -7,6 +7,11 @@
   margin-left: auto;
   align-self: center;
   display: flex;
+  cursor: pointer;
+}
+
+.profile__add:hover {
+  opacity: 0.6;
 }
 
 @media screen and (max-width: 1080px) {
