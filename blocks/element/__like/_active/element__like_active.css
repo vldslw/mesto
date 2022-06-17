@@ -1,13 +1,14 @@
-.element__like {
+.element__like_active {
   width: 22px;
   height: 19px;
   margin: 30px 20px;
   cursor: pointer;
-  background-image: url(../../../images/like.svg);
+  background-image: url(../../../../images/like-active.svg);
   background-size: 22px;
   background-repeat: no-repeat;
 }
 
-.element__like:hover {
+.element__like_active:hover {
   opacity: 0.5;
 }
+
