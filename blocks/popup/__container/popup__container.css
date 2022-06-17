@@ -7,13 +7,13 @@
   position: fixed;
   top: 50%;
   left: 50%;
-  margin: -165px 0 0 -215px ;
+  margin: -165px 0 0 -215px;
 }
 
 @media screen and (max-width: 768px) {
   .popup__container {
     width: 282px;
     min-height: 322px;
-    margin: -161px 0 0 -141px ;
+    margin: -161px 0 0 -141px;
   }
 }
