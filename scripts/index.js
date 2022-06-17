@@ -6,8 +6,6 @@ let popupName = popupForm.querySelector('.popup__name');
 let popupAbout = popupForm.querySelector('.popup__about');
 let editButton = document.querySelector('.profile__edit');
 let closeButton = document.querySelector('.popup__close-button');
-popupName.value = profileName.textContent;
-popupAbout.value = profileAbout.textContent;
 
 function formSubmitHandler (evt) {
   evt.preventDefault();
@@ -20,6 +18,8 @@ popupForm.addEventListener('submit', formSubmitHandler);
 
 function openPopup () {
   popup.classList.add('popup_opened');
+  popupName.value = profileName.textContent;
+  popupAbout.value = profileAbout.textContent;
 }
 
 editButton.addEventListener('click', openPopup);

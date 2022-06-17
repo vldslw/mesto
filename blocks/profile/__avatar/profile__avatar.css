@@ -10,9 +10,3 @@
     margin: 0 auto 26px auto;
   }
 }
-
-@media screen and (max-width: 768px) {
-  .profile__avatar {
-    margin: 0 auto 26px auto;
-  }
-}
