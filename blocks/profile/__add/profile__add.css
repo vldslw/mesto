@@ -8,10 +8,13 @@
   align-self: center;
   display: flex;
   cursor: pointer;
+  padding: 0;
+  background-color: rgba(0,0,0,0);
 }
 
 .profile__add:hover {
   opacity: 0.6;
+  transition: 0.3s;
 }
 
 @media screen and (max-width: 1080px) {

@@ -5,10 +5,14 @@
   top: -40px;
   left: calc(430px + 8px);
   cursor: pointer;
+  border: none;
+  padding: 0;
+  background-color: rgba(0,0,0,0);
 }
 
 .popup__close-button:hover {
   opacity: 0.5;
+  transition: 0.3s;
 }
 
 @media screen and (max-width: 768px) {
