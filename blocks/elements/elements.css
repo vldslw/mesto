@@ -1,7 +1,7 @@
 .elements {
   max-width: 880px;
   margin: 0 auto;
-  padding: 0 200px 67px;
+  padding: 0 0 67px;
   display: grid;
   row-gap: 20px;
   column-gap: 17px;
