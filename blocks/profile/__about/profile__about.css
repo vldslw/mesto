@@ -2,7 +2,7 @@
   margin: 0;
   font-weight: 400;
   font-size: 18px;
-  line-height: 23px;
+  line-height: 22px;
   grid-area: about;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -18,7 +18,7 @@
 @media screen and (max-width: 768px) {
   .profile__about {
     font-size: 14px;
-    line-height: 33px;
+    line-height: 17px;
     text-align: center;
   }
 }

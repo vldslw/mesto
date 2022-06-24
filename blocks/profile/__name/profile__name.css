@@ -2,7 +2,7 @@
   margin: 0;
   font-weight: 500;
   font-size: 42px;
-  line-height: 56px;
+  line-height: 48px;
   grid-area: name;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -21,7 +21,6 @@
   .profile__name {
     margin: 0 0 0 28px;
     font-size: 27px;
-    line-height: 30px;
-    text-align: center;
+    line-height: 33px;
   }
 }
