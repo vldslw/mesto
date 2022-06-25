@@ -1,4 +1,4 @@
-.popup__name {
+.popup__input {
   margin: 0 36px 30px;
   padding: 0 0 9px;
   font-weight: 400;
@@ -12,8 +12,17 @@
   outline: none;
 }
 
+.popup__input:last-of-type {
+  margin: 0 36px;
+}
+
+
 @media screen and (max-width: 768px) {
-  .popup__name {
+  .popup__input {
     margin: 0 22px 30px;
+  }
+
+  .popup__input:last-of-type {
+    margin: 0 22px;
   }
 }
