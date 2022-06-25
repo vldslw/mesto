@@ -1,9 +1,6 @@
 .header__logo {
   width: 142px;
   height: 33px;
-  background-size: 142px;
-  background-repeat: no-repeat;
-  background-image: url(../../../images/header-logo.svg);
   margin-bottom: 40px;
 }
 
@@ -12,7 +9,6 @@
     width: 104px;
     height: 25px;
     margin-left: 27px;
-    background-size: 104px;
     margin-bottom: 32px;
   }
 }

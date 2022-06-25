@@ -17,14 +17,14 @@ function closePopup () {
   popup.classList.remove('popup_opened');
 }
 
-function formSubmitHandler (evt) {
+function submitForm (evt) {
   evt.preventDefault();
   profileName.textContent = popupName.value;
   profileAbout.textContent = popupAbout.value;
   closePopup ();
 }
 
-popupForm.addEventListener('submit', formSubmitHandler);
+popupForm.addEventListener('submit', submitForm);
 editButton.addEventListener('click', openPopup);
 closeButton.addEventListener ('click', closePopup);
 
