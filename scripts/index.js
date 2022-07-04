@@ -67,16 +67,12 @@ const renderElements = () => {
 
 const renderElement = (object) => {
 
-  debugger;
-
   const htmlElement = elementTemplate.cloneNode(true);
   htmlElement.querySelector('.element__title').textContent = object['name'];
   htmlElement.querySelector('.element__photo').src = object['link'];
   htmlElement.querySelector('.element__photo').alt = object['name'];
 
   elements.append(htmlElement);
-
-  debugger;
 
 };
 
@@ -85,16 +81,15 @@ renderElements();
 
 function openPicturePopup () {
   popupPicture.classList.add('popup_opened');
-  debugger;
+  popupPictureTitle.value = '';
+  popupPictureLink.value = '';
 }
 
 function closePicturePopup () {
   popupPicture.classList.remove('popup_opened');
-  debugger;
 }
 
 function submitPictureForm (evt) {
-  debugger;
   evt.preventDefault();
 
   const htmlPictureElement = elementTemplate.cloneNode(true);
