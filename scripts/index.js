@@ -71,6 +71,7 @@ const renderElement = (object) => {
   htmlElement.querySelector('.element__title').textContent = object['name'];
   htmlElement.querySelector('.element__photo').src = object['link'];
   htmlElement.querySelector('.element__photo').alt = object['name'];
+  htmlElement.querySelector('.element__like').addEventListener ('click', likePicture);
 
   elements.append(htmlElement);
 
@@ -96,11 +97,18 @@ function submitPictureForm (evt) {
   htmlPictureElement.querySelector('.element__title').textContent = popupPictureTitle.value;
   htmlPictureElement.querySelector('.element__photo').src = popupPictureLink.value;
   htmlPictureElement.querySelector('.element__photo').alt = popupPictureTitle.value;
+  htmlPictureElement.querySelector('.element__like').addEventListener ('click', likePicture);
 
   elements.prepend(htmlPictureElement);
 
   closePicturePopup ();
 }
+
+function likePicture (evt) {
+  const buttonClick = evt.target;
+  buttonClick.classList.toggle('element__like_active');
+}
+
 
 popupProfileForm.addEventListener('submit', submitProfileForm);
 profileEdit.addEventListener('click', openProfilePopup);
@@ -108,4 +116,3 @@ popupProfileClose.addEventListener ('click', closeProfilePopup);
 popupPictureForm.addEventListener('submit', submitPictureForm);
 pictureAdd.addEventListener('click', openPicturePopup);
 popupPictureClose.addEventListener ('click', closePicturePopup);
-
