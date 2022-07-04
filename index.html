@@ -75,7 +75,7 @@
     <footer class="footer">
       <p class="footer__copyright">&copy; 2022 Mesto Russia</p>
     </footer>
-    <div class="popup">
+    <div class="popup popup_type_profile">
       <div class="popup__container">
         <button class="popup__close-button" type="button">
           <img class="popup__close-button-img" src="./images/close-button.svg" alt="Кнопка закрытия">
@@ -85,6 +85,19 @@
           <input class="popup__input popup__input_type_name" type="text" name="input-name" placeholder="Имя">
           <input class="popup__input popup__input_type_about" type="text" name="input-about" placeholder="О себе">
           <button class="popup__save-button" type="submit">Сохранить</button>
+        </form>
+      </div>
+    </div>
+    <div class="popup popup_type_picture">
+      <div class="popup__container">
+        <button class="popup__close-button" type="button">
+          <img class="popup__close-button-img" src="./images/close-button.svg" alt="Кнопка закрытия">
+        </button>
+        <h2 class="popup__title">Новое место</h2>
+        <form class="popup__form" name="input-form">
+          <input class="popup__input popup__input_type_title" type="text" name="input-name" placeholder="Название">
+          <input class="popup__input popup__input_type_link" type="text" name="input-about" placeholder="Ссылка на картинку">
+          <button class="popup__save-button" type="submit">Создать</button>
         </form>
       </div>
     </div>
