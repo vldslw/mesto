@@ -5,7 +5,12 @@ let popupProfile = document.querySelector('.popup_type_profile');
 let popupProfileForm = popupProfile.querySelector('.popup__form');
 let popupProfileName = popupProfileForm.querySelector('.popup__input_type_name');
 let popupProfileAbout = popupProfileForm.querySelector('.popup__input_type_about');
-let popupProfileClose = document.querySelector('.popup__close-button');
+let popupProfileClose = popupProfile.querySelector('.popup__close-button');
+
+let pictureAdd = document.querySelector('.profile__add');
+let popupPicture = document.querySelector('.popup_type_picture');
+let popupPictureClose = popupPicture.querySelector('.popup__close-button');
+
 
 function openProfilePopup () {
   popupProfile.classList.add('popup_opened');
@@ -24,9 +29,20 @@ function submitProfileForm (evt) {
   closeProfilePopup ();
 }
 
+function openPicturePopup () {
+  popupPicture.classList.add('popup_opened');
+}
+
+function closePicturePopup () {
+  popupPicture.classList.remove('popup_opened');
+}
+
+
 popupProfileForm.addEventListener('submit', submitProfileForm);
 profileEdit.addEventListener('click', openProfilePopup);
 popupProfileClose.addEventListener ('click', closeProfilePopup);
+pictureAdd.addEventListener('click', openPicturePopup);
+popupPictureClose.addEventListener ('click', closePicturePopup);
 
 const initialCards = [
   {
