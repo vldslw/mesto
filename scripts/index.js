@@ -14,6 +14,9 @@ const popupPictureTitle = popupPictureForm.querySelector('.popup__input_type_tit
 const popupPictureLink = popupPictureForm.querySelector('.popup__input_type_link');
 const popupPictureClose = popupPicture.querySelector('.popup__close-button');
 
+const popupLargepicture = document.querySelector('.popup_type_largepicture');
+const popupLargepictureClose = popupLargepicture.querySelector('.popup__close-button');
+
 const initialCards = [
   {
     name: 'Архыз',
@@ -73,6 +76,7 @@ const renderElement = (object) => {
   htmlElement.querySelector('.element__photo').alt = object['name'];
   htmlElement.querySelector('.element__like').addEventListener ('click', likePicture);
   htmlElement.querySelector('.element__delete-button').addEventListener('click', deletePicture);
+  htmlElement.querySelector('.element__photo').addEventListener('click', openLargepicturePopup);
 
   elements.append(htmlElement);
 
@@ -100,6 +104,7 @@ function submitPictureForm (evt) {
   htmlPictureElement.querySelector('.element__photo').alt = popupPictureTitle.value;
   htmlPictureElement.querySelector('.element__like').addEventListener ('click', likePicture);
   htmlPictureElement.querySelector('.element__delete-button').addEventListener('click', deletePicture);
+  htmlPictureElement.querySelector('.element__photo').addEventListener('click', openLargepicturePopup);
 
   elements.prepend(htmlPictureElement);
 
@@ -117,6 +122,17 @@ function deletePicture (evt) {
   pictureElement.remove();
 };
 
+function openLargepicturePopup (evt) {
+  const buttonClick = evt.target;
+  popupLargepicture.classList.add('popup_opened');
+  popupLargepicture.querySelector('.popup__title_largepicture').textContent = buttonClick.alt;
+  popupLargepicture.querySelector('.popup__photo').src = buttonClick.src;
+  popupLargepicture.querySelector('.popup__photo').alt = buttonClick.alt;
+}
+
+function closeLargepicturePopup () {
+  popupLargepicture.classList.remove('popup_opened');
+}
 
 popupProfileForm.addEventListener('submit', submitProfileForm);
 profileEdit.addEventListener('click', openProfilePopup);
@@ -124,3 +140,4 @@ popupProfileClose.addEventListener ('click', closeProfilePopup);
 popupPictureForm.addEventListener('submit', submitPictureForm);
 pictureAdd.addEventListener('click', openPicturePopup);
 popupPictureClose.addEventListener ('click', closePicturePopup);
+popupLargepictureClose.addEventListener ('click', closeLargepicturePopup);

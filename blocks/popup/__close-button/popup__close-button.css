@@ -3,7 +3,7 @@
   height: 32px;
   position: absolute;
   top: -40px;
-  left: calc(430px + 8px);
+  right: -40px;
   cursor: pointer;
   border: none;
   padding: 0;
@@ -20,7 +20,7 @@
     width: 20px;
     height: 20px;
     top: -36px;
-    left: calc(282px - 20px);
+    right: 0;
   }
 }
 

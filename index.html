@@ -76,7 +76,7 @@
       <p class="footer__copyright">&copy; 2022 Mesto Russia</p>
     </footer>
     <div class="popup popup_type_profile">
-      <div class="popup__container">
+      <div class="popup__container popup__container_type_form">
         <button class="popup__close-button" type="button">
           <img class="popup__close-button-img" src="./images/close-button.svg" alt="Кнопка закрытия">
         </button>
@@ -89,7 +89,7 @@
       </div>
     </div>
     <div class="popup popup_type_picture">
-      <div class="popup__container">
+      <div class="popup__container popup__container_type_form">
         <button class="popup__close-button" type="button">
           <img class="popup__close-button-img" src="./images/close-button.svg" alt="Кнопка закрытия">
         </button>
@@ -101,10 +101,19 @@
         </form>
       </div>
     </div>
+    <div class="popup popup_type_largepicture">
+      <div class="popup__container popup__container_type_largepicture">
+        <button class="popup__close-button" type="button">
+          <img class="popup__close-button-img" src="./images/close-button.svg" alt="Кнопка закрытия">
+        </button>
+        <img class="popup__photo" src="https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg" alt="Байкал">
+        <h2 class="popup__title popup__title_largepicture">Байкал</h2>
+      </div>
+    </div>
   </div>
   <template class="element-template">
     <article class="element">
-      <img class="element__photo" src="./images/paanajarvi.jpeg" alt="">
+      <img class="element__photo" src="" alt="">
       <button class="element__delete-button" type="button"></button>
       <div class="element__desc">
         <h2 class="element__title"></h2>
