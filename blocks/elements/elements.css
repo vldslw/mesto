@@ -5,11 +5,17 @@
   display: grid;
   row-gap: 20px;
   column-gap: 17px;
-  grid-template-columns: repeat(auto-fit, minmax(282px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(282px, 0.5fr));
 }
 
 @media screen and (max-width: 768px) {
   .elements {
     padding: 0 19px 48px;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .elements {
+    grid-template-columns: repeat(auto-fit, minmax(282px, 1fr));
   }
 }

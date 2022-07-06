@@ -11,7 +11,13 @@
 
 @media screen and (max-width: 1080px) {
   .page {
-    padding: 45px 120px 60px;
+    padding: 45px 100px 60px;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .page {
+    padding: 45px 50px 60px;
   }
 }
 
