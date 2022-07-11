@@ -80,8 +80,9 @@ function setCardEventListeners (element) {
 const createCard = (object) => {
   const newCardElement = elementTemplate.cloneNode(true);
   newCardElement.querySelector('.element__title').textContent = object.name;
-  newCardElement.querySelector('.element__photo').src = object.link;
-  newCardElement.querySelector('.element__photo').alt = object.name;
+  const newCardElementPhoto = newCardElement.querySelector('.element__photo');
+  newCardElementPhoto.src = object.link;
+  newCardElementPhoto.alt = object.name;
   setCardEventListeners(newCardElement);
   return newCardElement;
 
@@ -92,10 +93,14 @@ const addInitialCards = () => {
   initialCards.forEach(addCard);
 };
 
+function renderCard (card) {
+  elements.prepend(card);
+};
+
 // добавить карточку
 const addCard = (object) => {
   const card = createCard(object);
-  elements.prepend(card);
+  renderCard(card);
 };
 
 // запустить функцию добавления первоначальных карточек
@@ -105,8 +110,7 @@ addInitialCards();
 // открыть попап для добавления фотографии
 function openPicturePopup () {
   openPopup(popupPicture);
-  popupPictureTitle.value = '';
-  popupPictureLink.value = '';
+  popupPictureForm.reset();
 }
 
 // добавить новую фотографию
