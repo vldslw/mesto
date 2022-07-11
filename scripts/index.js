@@ -18,7 +18,7 @@ const popupPictureClose = popupPicture.querySelector('.popup__close-button');
 const popupLargePicture = document.querySelector('.popup_type_largepicture');
 const popupLargePictureClose = popupLargePicture.querySelector('.popup__close-button');
 
-const elementTemplate = document.querySelector('.element-template').content;
+const elementTemplate = document.querySelector('.element-template').content.firstElementChild;
 const elements = document.querySelector('.elements');
 
 // открыть любой попап
@@ -66,24 +66,24 @@ function openLargePicturePopup (evt) {
   popupLargePicture.querySelector('.popup__photo').alt = buttonClick.alt;
 }
 
-// добавить листенеры для html элементов
-function setCardEventListeners (htmlElement) {
-  const likeButton = htmlElement.querySelector('.element__like');
+// добавить листенеры для элементов карточки
+function setCardEventListeners (element) {
+  const likeButton = element.querySelector('.element__like');
   likeButton.addEventListener ('click', likePicture);
-  const deleteButton = htmlElement.querySelector('.element__delete-button');
+  const deleteButton = element.querySelector('.element__delete-button');
   deleteButton.addEventListener('click', deletePicture);
-  const openLargeButton = htmlElement.querySelector('.element__photo');
+  const openLargeButton = element.querySelector('.element__photo');
   openLargeButton.addEventListener('click', openLargePicturePopup);
 }
 
 // создать html элемент для карточки
 const createCard = (object) => {
-  let htmlElement = elementTemplate.cloneNode(true);
-  htmlElement.querySelector('.element__title').textContent = object.name;
-  htmlElement.querySelector('.element__photo').src = object.link;
-  htmlElement.querySelector('.element__photo').alt = object.name;
-  setCardEventListeners(htmlElement);
-  return htmlElement;
+  const newCardElement = elementTemplate.cloneNode(true);
+  newCardElement.querySelector('.element__title').textContent = object.name;
+  newCardElement.querySelector('.element__photo').src = object.link;
+  newCardElement.querySelector('.element__photo').alt = object.name;
+  setCardEventListeners(newCardElement);
+  return newCardElement;
 
 };
 
@@ -94,8 +94,8 @@ const addInitialCards = () => {
 
 // добавить карточку
 const addCard = (object) => {
-  htmlElement = createCard(object);
-  elements.prepend(htmlElement);
+  const card = createCard(object);
+  elements.prepend(card);
 };
 
 // запустить функцию добавления первоначальных карточек
