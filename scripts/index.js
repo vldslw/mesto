@@ -8,50 +8,18 @@ const popupProfileName = popupProfileForm.querySelector('.popup__input_type_name
 const popupProfileAbout = popupProfileForm.querySelector('.popup__input_type_about');
 const popupProfileClose = popupProfile.querySelector('.popup__close-button');
 
-const pictureAdd = document.querySelector('.profile__add');
+const pictureAddButton = document.querySelector('.profile__add');
 const popupPicture = document.querySelector('.popup_type_picture');
 const popupPictureForm = popupPicture.querySelector('.popup__form');
 const popupPictureTitle = popupPictureForm.querySelector('.popup__input_type_title');
 const popupPictureLink = popupPictureForm.querySelector('.popup__input_type_link');
 const popupPictureClose = popupPicture.querySelector('.popup__close-button');
 
-const popupLargepicture = document.querySelector('.popup_type_largepicture');
-const popupLargepictureClose = popupLargepicture.querySelector('.popup__close-button');
+const popupLargePicture = document.querySelector('.popup_type_largepicture');
+const popupLargePictureClose = popupLargePicture.querySelector('.popup__close-button');
 
 const elementTemplate = document.querySelector('.element-template').content;
 const elements = document.querySelector('.elements');
-
-// список названий и ссылок для первоначальных карточек
-const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
-
-// новая карточка
-const newCard = {
-};
 
 // открыть любой попап
 function openPopup (popup) {
@@ -90,22 +58,22 @@ function deletePicture (evt) {
 };
 
 // открыть большую версию фотографии
-function openLargepicturePopup (evt) {
+function openLargePicturePopup (evt) {
   const buttonClick = evt.target;
-  openPopup(popupLargepicture);
-  popupLargepicture.querySelector('.popup__title_largepicture').textContent = buttonClick.alt;
-  popupLargepicture.querySelector('.popup__photo').src = buttonClick.src;
-  popupLargepicture.querySelector('.popup__photo').alt = buttonClick.alt;
+  openPopup(popupLargePicture);
+  popupLargePicture.querySelector('.popup__title_largepicture').textContent = buttonClick.alt;
+  popupLargePicture.querySelector('.popup__photo').src = buttonClick.src;
+  popupLargePicture.querySelector('.popup__photo').alt = buttonClick.alt;
 }
 
 // добавить листенеры для html элементов
-function setEventListeners (htmlElement) {
+function setCardEventListeners (htmlElement) {
   const likeButton = htmlElement.querySelector('.element__like');
   likeButton.addEventListener ('click', likePicture);
   const deleteButton = htmlElement.querySelector('.element__delete-button');
   deleteButton.addEventListener('click', deletePicture);
   const openLargeButton = htmlElement.querySelector('.element__photo');
-  openLargeButton.addEventListener('click', openLargepicturePopup);
+  openLargeButton.addEventListener('click', openLargePicturePopup);
 }
 
 // создать html элемент для карточки
@@ -114,7 +82,7 @@ const createCard = (object) => {
   htmlElement.querySelector('.element__title').textContent = object.name;
   htmlElement.querySelector('.element__photo').src = object.link;
   htmlElement.querySelector('.element__photo').alt = object.name;
-  setEventListeners(htmlElement);
+  setCardEventListeners(htmlElement);
   return htmlElement;
 
 };
@@ -144,6 +112,8 @@ function openPicturePopup () {
 // добавить новую фотографию
 function submitPictureForm (evt) {
   evt.preventDefault();
+  const newCard = {
+  };
   newCard.name = popupPictureTitle.value;
   newCard.link = popupPictureLink.value;
   addCard(newCard);
@@ -154,6 +124,6 @@ popupProfileForm.addEventListener('submit', submitProfileForm);
 profileEdit.addEventListener('click', openProfilePopup);
 popupProfileClose.addEventListener ('click', () => {closePopup(popupProfile)});
 popupPictureForm.addEventListener('submit', submitPictureForm);
-pictureAdd.addEventListener('click', openPicturePopup);
+pictureAddButton.addEventListener('click', openPicturePopup);
 popupPictureClose.addEventListener ('click', () => {closePopup(popupPicture)});
-popupLargepictureClose.addEventListener ('click', () => {closePopup(popupLargepicture)});
+popupLargePictureClose.addEventListener ('click', () => {closePopup(popupLargePicture)});
