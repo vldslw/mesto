@@ -18,7 +18,7 @@ const popupPictureClose = popupPicture.querySelector('.popup__close-button');
 const popupLargePicture = document.querySelector('.popup_type_largepicture');
 const popupLargePictureClose = popupLargePicture.querySelector('.popup__close-button');
 
-const elementTemplate = document.querySelector('.element-template').content.firstElementChild;
+const elementTemplate = document.querySelector('#element-template').content.firstElementChild;
 const elements = document.querySelector('.elements');
 
 // открыть любой попап
