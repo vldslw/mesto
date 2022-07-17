@@ -1,7 +1,11 @@
 const formProfile = document.querySelector('.popup__form_profile');
+const formNew = document.querySelector('.popup__form_new');
 
 formProfile.addEventListener('submit', sendForm);
 formProfile.addEventListener('input', handlerInputForm);
+
+formNew.addEventListener('submit', sendForm);
+formNew.addEventListener('input', handlerInputForm);
 
 function sendForm (evt) {
   evt.preventDefault();
