@@ -3,18 +3,16 @@ const formProfile = document.querySelector('.popup__form_profile');
 formProfile.addEventListener('submit', sendForm);
 formProfile.addEventListener('input', handlerInputForm);
 
-// validateForm(formProfile);
-
 function sendForm (evt) {
   evt.preventDefault();
 
-  const form = evt.target;
+  // const form = evt.target;
 
-  if (form.checkValidity()) {
-    alert('Форма валидна');
-  } else {
-    alert('Форма НЕ валидна');
-  };
+  // if (form.checkValidity()) {
+  //   alert('Форма валидна');
+  // } else {
+  //   alert('Форма НЕ валидна');
+  // };
 
 };
 
@@ -39,6 +37,12 @@ function validateForm (form) {
 };
 
 function validateInput (input) {
+  const inputElement = input.parentNode.querySelector(`#${input.id}`);
   const errorElement = input.parentNode.querySelector(`#${input.id}-error`);
   errorElement.textContent = input.validationMessage;
+  if (errorElement.textContent !== '') {
+    inputElement.classList.add('popup__input_error');
+  } else {
+    inputElement.classList.remove('popup__input_error');
+  };
 };

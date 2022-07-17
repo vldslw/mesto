@@ -36,6 +36,10 @@ function openProfilePopup () {
   openPopup(popupProfile);
   popupProfileName.value = profileName.textContent;
   popupProfileAbout.value = profileAbout.textContent;
+  validateForm(formProfile);
+  validateInput(popupProfileName);
+  validateInput(popupProfileAbout);
+
 }
 
 // отправить данные профиля
