@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="pages/index.css">
   <script defer src="./scripts/cards.js"></script>
   <script defer src="./scripts/index.js"></script>
+  <script defer src="./scripts/validate.js"></script>
   <title>Mesto Russia</title>
 </head>
 <body>
@@ -36,12 +37,12 @@
       <div class="popup__container popup__container_type_form">
         <button class="popup__close-button" type="button"></button>
         <h2 class="popup__title">Редактировать профиль</h2>
-        <form class="popup__form" name="profile-form" novalidate>
+        <form class="popup__form popup__form_profile" name="profile-form" novalidate>
           <input type="text" id="profile-name" name="profile-name" class="popup__input popup__input_type_name" placeholder="Имя" minlength="2" maxlength="40" required>
           <span id="profile-name-error" class="error"></span>
           <input type="text" id="profile-about" name="profile-about" class="popup__input popup__input_type_about" placeholder="О себе" minlength="2" maxlength="200" required>
           <span id="profile-about-error" class="error"></span>
-          <button type="submit" class="popup__save-button" >Сохранить</button>
+          <button type="submit" class="popup__submit-button" >Сохранить</button>
         </form>
       </div>
     </div>
@@ -52,7 +53,7 @@
         <form class="popup__form" name="input-form">
           <input class="popup__input popup__input_type_title" type="text" name="input-name" placeholder="Название" required>
           <input class="popup__input popup__input_type_link" type="url" name="input-about" placeholder="Ссылка на картинку" required>
-          <button class="popup__save-button" type="submit">Создать</button>
+          <button type="submit" class="popup__submit-button">Создать</button>
         </form>
       </div>
     </div>
