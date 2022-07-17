@@ -50,9 +50,11 @@
       <div class="popup__container popup__container_type_form">
         <button class="popup__close-button" type="button"></button>
         <h2 class="popup__title">Новое место</h2>
-        <form class="popup__form" name="input-form">
-          <input class="popup__input popup__input_type_title" type="text" name="input-name" placeholder="Название" required>
-          <input class="popup__input popup__input_type_link" type="url" name="input-about" placeholder="Ссылка на картинку" required>
+        <form class="popup__form popup__form_new" name="new-form">
+          <input type="text" id="new-title" name="new-title" class="popup__input popup__input_type_title" placeholder="Название" minlength="2" maxlength="30" required>
+          <span id="new-title-error" class="error"></span>
+          <input type="url" id="new-link" name="new-link" class="popup__input popup__input_type_link" placeholder="Ссылка на картинку" required>
+          <span id="new-link-error" class="error"></span>
           <button type="submit" class="popup__submit-button">Создать</button>
         </form>
       </div>
