@@ -87,7 +87,6 @@ const createCard = (object) => {
   newCardElementPhoto.alt = object.name;
   setCardEventListeners(newCardElement);
   return newCardElement;
-
 };
 
 // добавить набор первоначальных карточек
@@ -142,6 +141,34 @@ function submitPictureForm (evt) {
   addCard(newCard);
   closePopup(popupPicture);
 }
+
+function setPopupEventListeners () {
+  const popups = Array.from(document.querySelectorAll('.popup'));
+
+  popups.forEach((popup) => {
+    popup.addEventListener('click', (event) => {
+    if (!event.defaultPrevented) {
+      closePopup(popup)
+    }
+    });
+
+  });
+}
+
+setPopupEventListeners();
+
+function setPopupContainerEventListeners () {
+  const popupContainers = Array.from(document.querySelectorAll('.popup__container'));
+
+  popupContainers.forEach((popupContainer) => {
+    popupContainer.addEventListener('click', (event) => {
+      event.preventDefault();
+    });
+
+  });
+}
+
+setPopupContainerEventListeners();
 
 popupProfileForm.addEventListener('submit', submitProfileForm);
 profileEdit.addEventListener('click', openProfilePopup);
