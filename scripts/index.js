@@ -147,7 +147,7 @@ function setPopupEventListeners () {
 
   popups.forEach((popup) => {
     popup.addEventListener('click', (event) => {
-    if (!event.defaultPrevented) {
+    if (event.target === event.currentTarget) {
       closePopup(popup)
     }
     });
@@ -156,19 +156,6 @@ function setPopupEventListeners () {
 }
 
 setPopupEventListeners();
-
-function setPopupContainerEventListeners () {
-  const popupContainers = Array.from(document.querySelectorAll('.popup__container'));
-
-  popupContainers.forEach((popupContainer) => {
-    popupContainer.addEventListener('click', (event) => {
-      event.preventDefault();
-    });
-
-  });
-}
-
-setPopupContainerEventListeners();
 
 popupProfileForm.addEventListener('submit', submitProfileForm);
 profileEdit.addEventListener('click', openProfilePopup);
