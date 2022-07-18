@@ -23,13 +23,24 @@ const elements = document.querySelector('.elements');
 
 // открыть любой попап
 function openPopup (popup) {
+  console.log(popup);
   popup.classList.add('popup_opened');
+  document.addEventListener('keydown', closePopupEsc);
 }
 
 // закрыть любой попап
 function closePopup (popup) {
   popup.classList.remove('popup_opened');
+  document.removeEventListener('keydown', closePopupEsc);
 }
+
+function closePopupEsc (evt) {
+  console.log(evt.key);
+  if (evt.key === 'Escape') {
+    popup = document.querySelector('.popup_opened');
+    closePopup(popup);
+  }
+};
 
 // открыть и заполнить попап данными профиля
 function openProfilePopup () {
@@ -156,7 +167,6 @@ function setPopupEventListeners () {
 }
 
 setPopupEventListeners();
-
 popupProfileForm.addEventListener('submit', submitProfileForm);
 profileEdit.addEventListener('click', openProfilePopup);
 popupProfileClose.addEventListener ('click', () => {closePopup(popupProfile)});
