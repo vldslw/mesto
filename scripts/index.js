@@ -23,7 +23,6 @@ const elements = document.querySelector('.elements');
 
 // открыть любой попап
 function openPopup (popup) {
-  console.log(popup);
   popup.classList.add('popup_opened');
   document.addEventListener('keydown', closePopupEsc);
 }
@@ -35,7 +34,6 @@ function closePopup (popup) {
 }
 
 function closePopupEsc (evt) {
-  console.log(evt.key);
   if (evt.key === 'Escape') {
     popup = document.querySelector('.popup_opened');
     closePopup(popup);
@@ -47,8 +45,8 @@ function openProfilePopup () {
   openPopup(popupProfile);
   popupProfileName.value = profileName.textContent;
   popupProfileAbout.value = profileAbout.textContent;
-  validateForm(formProfile);
-  resetErrors(formProfile);
+  validateForm(document.querySelector('.popup__form_profile'));
+  resetErrors(document.querySelector('.popup__form_profile'));
 }
 
 // отправить данные профиля
@@ -123,8 +121,8 @@ addInitialCards();
 function openPicturePopup () {
   openPopup(popupPicture);
   popupPictureForm.reset();
-  validateForm(formNew);
-  resetErrors(formNew);
+  validateForm(document.querySelector('.popup__form_new'));
+  resetErrors(document.querySelector('.popup__form_new'));
 }
 
 // сбросить сообщения об ошибках в форме

@@ -1,31 +1,30 @@
-const formProfile = document.querySelector('.popup__form_profile');
-const formNew = document.querySelector('.popup__form_new');
+//включить валидацию
+const enableValidation = (parameters) => {
+  const formList = Array.from(document.querySelectorAll(parameters.formSelector));
 
-formProfile.addEventListener('submit', sendForm);
-formProfile.addEventListener('input', handlerInputForm);
+  //повесить preventDefault() на все формы и добавить слушатели на все формы
+  formList.forEach((formElement) => {
+    formElement.addEventListener('submit', (evt) => {
+      evt.preventDefault();
+    });
+    setFormEventListeners(formElement);
+  });
 
-formNew.addEventListener('submit', sendForm);
-formNew.addEventListener('input', handlerInputForm);
+  // поставить слушатель на форму
+  function setFormEventListeners (form) {
+  form.addEventListener('input', handlerInputForm);
+  };
 
-function sendForm (evt) {
-  evt.preventDefault();
-
-  // const form = evt.target;
-
-  // if (form.checkValidity()) {
-  //   alert('Форма валидна');
-  // } else {
-  //   alert('Форма НЕ валидна');
-  // };
+  //запустить валидацию формы и поля ввода
+  function handlerInputForm (evt) {
+    const form = evt.currentTarget;
+    validateForm(form);
+    validateInput(evt.target);
+  };
 
 };
 
-function handlerInputForm (evt) {
-  const form = evt.currentTarget;
-  validateForm(form);
-  validateInput(evt.target);
-};
-
+//валидировать форму
 function validateForm (form) {
   const submitButton = form.querySelector('.popup__submit-button');
 
@@ -40,6 +39,7 @@ function validateForm (form) {
   };
 };
 
+//валидировать поле ввода
 function validateInput (input) {
   const inputElement = input.parentNode.querySelector(`#${input.id}`);
   const errorElement = input.parentNode.querySelector(`#${input.id}-error`);
@@ -50,3 +50,7 @@ function validateInput (input) {
     inputElement.classList.remove('popup__input_error');
   };
 };
+
+enableValidation({
+  formSelector: '.popup__form',
+});
