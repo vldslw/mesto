@@ -35,7 +35,7 @@ function closePopup (popup) {
 
 function closePopupEsc (evt) {
   if (evt.key === 'Escape') {
-    popup = document.querySelector('.popup_opened');
+    const popup = document.querySelector('.popup_opened');
     closePopup(popup);
   }
 };
@@ -78,12 +78,12 @@ function openLargePicturePopup (evt) {
 
 // добавить листенеры для элементов карточки
 function setCardEventListeners (element) {
-  const likeButton = element.querySelector('.element__like');
-  likeButton.addEventListener ('click', likePicture);
-  const deleteButton = element.querySelector('.element__delete-button');
-  deleteButton.addEventListener('click', deletePicture);
-  const openLargeButton = element.querySelector('.element__photo');
-  openLargeButton.addEventListener('click', openLargePicturePopup);
+  const buttonLike = element.querySelector('.element__like');
+  buttonLike.addEventListener ('click', likePicture);
+  const buttonDelete = element.querySelector('.element__delete-button');
+  buttonDelete.addEventListener('click', deletePicture);
+  const buttonOpenLarge = element.querySelector('.element__photo');
+  buttonOpenLarge.addEventListener('click', openLargePicturePopup);
 }
 
 // создать html элемент для карточки
