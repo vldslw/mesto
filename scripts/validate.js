@@ -1,10 +1,5 @@
 const showInputError = (formElement, inputElement, errorMessage, parameters) => {
-  console.log(formElement);
-  console.log(inputElement);
-  console.log(errorMessage);
-  console.log(inputElement.id);
   const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
-  console.log(errorElement);
   errorElement.textContent = errorMessage;
   inputElement.classList.add(parameters.inputErrorClass);
 };
@@ -38,25 +33,22 @@ const toggleButtonState = (formElement, buttonElement, parameters) => {
 
 function resetErrors (formElement) {
   const buttonElement = formElement.querySelector('.popup__submit-button');
+  const parameters = {
+    activeButtonClass: 'popup__submit-button_valid',
+    inactiveButtonClass: 'popup__submit-button_invalid',
+    inputErrorClass: 'popup__input_error'
+  };
   const errorElements = Array.from(formElement.querySelectorAll('.error'));
   const inputElements = Array.from(formElement.querySelectorAll('.popup__input'));
 
-  if (formElement.checkValidity()) {
-    buttonElement.removeAttribute('disabled');
-    buttonElement.classList.add('popup__submit-button_valid');
-    buttonElement.classList.remove('popup__submit-button_invalid');
-  } else {
-    buttonElement.setAttribute('disabled', true);
-    buttonElement.classList.remove('popup__submit-button_valid');
-    buttonElement.classList.add('popup__submit-button_invalid');
-  };
+  toggleButtonState(formElement, buttonElement, parameters);
 
   errorElements.forEach((errorElement) => {
     errorElement.textContent = '';
   });
 
   inputElements.forEach((inputElement) => {
-    inputElement.classList.remove('popup__input_error');
+    inputElement.classList.remove(parameters.inputErrorClass);
   });
 
 };
@@ -99,5 +91,5 @@ enableValidation({
   submitButtonSelector: '.popup__submit-button',
   activeButtonClass: 'popup__submit-button_valid',
   inactiveButtonClass: 'popup__submit-button_invalid',
-  inputErrorClass: 'popup__input_error',
+  inputErrorClass: 'popup__input_error'
 });
