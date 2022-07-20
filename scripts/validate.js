@@ -26,11 +26,9 @@ const toggleButtonState = (formElement, buttonElement, parameters) => {
 
   if (formElement.checkValidity()) {
     buttonElement.removeAttribute('disabled');
-    buttonElement.classList.add(parameters.activeButtonClass);
     buttonElement.classList.remove(parameters.inactiveButtonClass);
   } else {
     buttonElement.setAttribute('disabled', true);
-    buttonElement.classList.remove(parameters.activeButtonClass);
     buttonElement.classList.add(parameters.inactiveButtonClass);
   };
 };
@@ -39,7 +37,6 @@ const toggleButtonState = (formElement, buttonElement, parameters) => {
 function resetErrors (formElement) {
   const buttonElement = formElement.querySelector('.popup__submit-button');
   const parameters = {
-    activeButtonClass: 'popup__submit-button_valid',
     inactiveButtonClass: 'popup__submit-button_invalid',
     inputErrorClass: 'popup__input_error'
   };
@@ -98,7 +95,6 @@ enableValidation({
   formSelector: '.popup__form',
   inputSelector: '.popup__input',
   submitButtonSelector: '.popup__submit-button',
-  activeButtonClass: 'popup__submit-button_valid',
   inactiveButtonClass: 'popup__submit-button_invalid',
   inputErrorClass: 'popup__input_error'
 });

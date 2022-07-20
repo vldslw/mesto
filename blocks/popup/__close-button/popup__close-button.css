@@ -9,6 +9,7 @@
   padding: 0;
   background-color: rgba(0,0,0,0);
   background-image: url(../../../images/close-button.svg);
+  background-size: cover;
 }
 
 .popup__close-button:hover {
