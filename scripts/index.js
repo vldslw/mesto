@@ -45,8 +45,7 @@ function openProfilePopup () {
   openPopup(popupProfile);
   popupProfileName.value = profileName.textContent;
   popupProfileAbout.value = profileAbout.textContent;
-  // validateForm(document.querySelector('.popup__form_profile'));
-  resetErrors(document.querySelector('.popup__form_profile'));
+  resetErrors(popupProfileForm);
 }
 
 // отправить данные профиля
@@ -121,8 +120,7 @@ addInitialCards();
 function openPicturePopup () {
   openPopup(popupPicture);
   popupPictureForm.reset();
-  // validateForm(document.querySelector('.popup__form_new'));
-  resetErrors(document.querySelector('.popup__form_new'));
+  resetErrors(popupPictureForm);
 }
 
 // добавить новую фотографию
