@@ -45,7 +45,7 @@ function openProfilePopup () {
   openPopup(popupProfile);
   popupProfileName.value = profileName.textContent;
   popupProfileAbout.value = profileAbout.textContent;
-  validateForm(document.querySelector('.popup__form_profile'));
+  // validateForm(document.querySelector('.popup__form_profile'));
   resetErrors(document.querySelector('.popup__form_profile'));
 }
 
@@ -121,24 +121,9 @@ addInitialCards();
 function openPicturePopup () {
   openPopup(popupPicture);
   popupPictureForm.reset();
-  validateForm(document.querySelector('.popup__form_new'));
+  // validateForm(document.querySelector('.popup__form_new'));
   resetErrors(document.querySelector('.popup__form_new'));
 }
-
-// сбросить сообщения об ошибках в форме
-function resetErrors (form) {
-  const errorElements = Array.from(form.querySelectorAll('.error'));
-  const inputElements = Array.from(form.querySelectorAll('.popup__input'));
-
-  errorElements.forEach((errorElement) => {
-    errorElement.textContent = '';
-  });
-
-  inputElements.forEach((inputElement) => {
-    inputElement.classList.remove('popup__input_error');
-  });
-
-};
 
 // добавить новую фотографию
 function submitPictureForm (evt) {
