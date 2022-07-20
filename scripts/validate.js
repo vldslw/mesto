@@ -1,15 +1,18 @@
+//показать сообщения об ошибках
 const showInputError = (formElement, inputElement, errorMessage, parameters) => {
   const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
   errorElement.textContent = errorMessage;
   inputElement.classList.add(parameters.inputErrorClass);
 };
 
+//скрыть сообщения об ошибках
 const hideInputError = (formElement, inputElement, parameters) => {
   const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
   errorElement.textContent = '';
   inputElement.classList.remove(parameters.inputErrorClass);
 };
 
+//проверить инпуты на валидность
 const checkInputValidity = (formElement, inputElement, parameters) => {
   if (!inputElement.validity.valid) {
     showInputError(formElement, inputElement, inputElement.validationMessage, parameters);
@@ -18,6 +21,7 @@ const checkInputValidity = (formElement, inputElement, parameters) => {
   }
 };
 
+//проверить и переключить состояния кнопки
 const toggleButtonState = (formElement, buttonElement, parameters) => {
 
   if (formElement.checkValidity()) {
@@ -31,6 +35,7 @@ const toggleButtonState = (formElement, buttonElement, parameters) => {
   };
 };
 
+//сбросить сообщения об ошибках и состояния кнопки
 function resetErrors (formElement) {
   const buttonElement = formElement.querySelector('.popup__submit-button');
   const parameters = {
@@ -53,6 +58,7 @@ function resetErrors (formElement) {
 
 };
 
+//установить слушатели на все формы
 const setFormEventListeners = (formList, formElement, parameters) => {
   const buttonElement = formElement.querySelector(parameters.submitButtonSelector);
 
@@ -63,6 +69,7 @@ const setFormEventListeners = (formList, formElement, parameters) => {
     });
 };
 
+//установить слушатели на все инпуты
 const setInputEventListeners = (formElement, parameters) => {
   const inputList = Array.from(formElement.querySelectorAll(parameters.inputSelector));
 
@@ -73,6 +80,7 @@ const setInputEventListeners = (formElement, parameters) => {
   });
 };
 
+//включить валидацию
 const enableValidation = (parameters) => {
   const formList = Array.from(document.querySelectorAll(parameters.formSelector));
 
@@ -85,6 +93,7 @@ const enableValidation = (parameters) => {
   });
 };
 
+//запустить функцию включения валидации
 enableValidation({
   formSelector: '.popup__form',
   inputSelector: '.popup__input',
