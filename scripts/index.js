@@ -66,11 +66,10 @@ function deletePicture (evt) {
 };
 
 // открыть большую версию фотографии
-function openLargePicturePopup (evt) {
-  const buttonClick = evt.target;
-  popupLargePicture.querySelector('.popup__title_largepicture').textContent = buttonClick.alt;
-  popupLargePicture.querySelector('.popup__photo').src = buttonClick.src;
-  popupLargePicture.querySelector('.popup__photo').alt = buttonClick.alt;
+function openLargePicturePopup (cardName, cardLink) {
+  popupLargePicture.querySelector('.popup__title_largepicture').textContent = cardName;
+  popupLargePicture.querySelector('.popup__photo').src = cardLink;
+  popupLargePicture.querySelector('.popup__photo').alt = cardName;
   openPopup(popupLargePicture);
 }
 
@@ -81,7 +80,7 @@ function setCardEventListeners (element) {
   const buttonDelete = element.querySelector('.element__delete-button');
   buttonDelete.addEventListener('click', deletePicture);
   const buttonOpenLarge = element.querySelector('.element__photo');
-  buttonOpenLarge.addEventListener('click', openLargePicturePopup);
+  buttonOpenLarge.addEventListener('click', () => openLargePicturePopup(buttonOpenLarge.alt, buttonOpenLarge.src));
 }
 
 // создать элемент для карточки
