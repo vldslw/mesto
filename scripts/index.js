@@ -18,6 +18,14 @@ const popupLargePicture = document.querySelector('.popup_type_largepicture');
 const elementTemplate = document.querySelector('#element-template').content.firstElementChild;
 const elements = document.querySelector('.elements');
 
+const validationConfig = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__submit-button',
+  inactiveButtonClass: 'popup__submit-button_invalid',
+  inputErrorClass: 'popup__input_error'
+};
+
 // открыть любой попап
 function openPopup (popup) {
   popup.classList.add('popup_opened');
@@ -43,7 +51,7 @@ function openProfilePopup () {
   openPopup(popupProfile);
   popupProfileName.value = profileName.textContent;
   popupProfileAbout.value = profileAbout.textContent;
-  resetErrors(popupProfileForm);
+  resetValidation(popupProfileForm, validationConfig);
 }
 
 // отправить данные профиля
@@ -117,7 +125,7 @@ addInitialCards();
 function openPicturePopup () {
   openPopup(popupPicture);
   popupPictureForm.reset();
-  resetErrors(popupPictureForm);
+  resetValidation(popupPictureForm, validationConfig);
 }
 
 // добавить новую фотографию

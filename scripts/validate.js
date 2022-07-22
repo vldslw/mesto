@@ -34,25 +34,17 @@ const toggleButtonState = (formElement, buttonElement, parameters) => {
 };
 
 //сбросить сообщения об ошибках и состояния кнопки
-function resetErrors (formElement) {
-  const buttonElement = formElement.querySelector('.popup__submit-button');
-  const parameters = {
-    inactiveButtonClass: 'popup__submit-button_invalid',
-    inputErrorClass: 'popup__input_error'
-  };
-  const errorElements = Array.from(formElement.querySelectorAll('.error'));
-  const inputElements = Array.from(formElement.querySelectorAll('.popup__input'));
-
+function resetValidation (formElement, parameters) {
+  // найти кнопку сабмита
+  const buttonElement = formElement.querySelector(parameters.submitButtonSelector);
+  // вызывать toggleButtonState для кнопки сабмита
   toggleButtonState(formElement, buttonElement, parameters);
-
-  errorElements.forEach((errorElement) => {
-    errorElement.textContent = '';
-  });
-
+  // найти список инпутов
+  const inputElements = Array.from(formElement.querySelectorAll(parameters.inputSelector));
+  // в цикле для каждого инпута вызывать hideInputError
   inputElements.forEach((inputElement) => {
-    inputElement.classList.remove(parameters.inputErrorClass);
+    hideInputError(formElement, inputElement, parameters);
   });
-
 };
 
 //установить слушатели на все формы
@@ -91,10 +83,4 @@ const enableValidation = (parameters) => {
 };
 
 //запустить функцию включения валидации
-enableValidation({
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__submit-button',
-  inactiveButtonClass: 'popup__submit-button_invalid',
-  inputErrorClass: 'popup__input_error'
-});
+enableValidation(validationConfig);
