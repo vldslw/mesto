@@ -15,7 +15,7 @@ const popupPictureLink = popupPictureForm.querySelector('.popup__input_type_link
 
 const popupLargePicture = document.querySelector('.popup_type_largepicture');
 
-const elementTemplate = document.querySelector('#element-template').content.firstElementChild;
+const cardTemplateSelector = '#element-template';
 const elements = document.querySelector('.elements');
 
 const validationConfig = {
@@ -25,6 +25,110 @@ const validationConfig = {
   inactiveButtonClass: 'popup__submit-button_invalid',
   inputErrorClass: 'popup__input_error'
 };
+
+//класс создаёт карточку с текстом и ссылкой на изображение и возвращает элемент карточки
+class Card {
+  //конструктор принимает данные карточки и селектор её template-элемента
+  constructor(data, templateSelector) {
+    this._text = data.name;
+    this._link = data.link;
+    this._cardTemplateSelector = templateSelector;
+  }
+
+  //приватные методы, которые работают с разметкой
+
+  _getTemplate = () => {
+    const newCardTemplate = document
+    .querySelector(this._cardTemplateSelector)
+    .content
+    .firstElementChild
+    .cloneNode(true);
+
+    return newCardTemplate;
+  }
+
+  //публичный метод, который возвращает полностью работоспособный и наполненный данными элемент карточки.
+
+  _generateCard = () => {
+    this._cardElement = this._getTemplate();
+    this._setCardEventListeners();
+    this._cardElement.querySelector('.element__title').textContent = this._text;
+    this._cardElement.querySelector('.element__photo').alt = this._text;
+    this._cardElement.querySelector('.element__photo').src = this._link;
+
+    return this._cardElement;
+  }
+
+  //приватные методы, которые устанавливают слушателей событий
+  _setCardEventListeners = () => {
+    this._cardElement.querySelector('.element__like').addEventListener ('click', () => {
+      this._likePicture();
+    });
+
+    this._cardElement.querySelector('.element__delete-button').addEventListener('click', () => {
+      this._deletePicture();
+    });
+
+    this._cardElement.querySelector('.element__photo').addEventListener('click', () => {
+      this._openLargePicturePopup();
+    });
+  }
+
+  //приватные методы для каждого обработчика
+
+  _likePicture() {
+    this._cardElement.querySelector('.element__like').classList.toggle('element__like_active');
+  }
+
+  _deletePicture() {
+    this._cardElement.querySelector('.element__delete-button').closest('.element').remove();
+  }
+
+  _openLargePicturePopup() {
+    popupLargePicture.querySelector('.popup__title_largepicture').textContent = this._text;
+    popupLargePicture.querySelector('.popup__photo').src = this._link;
+    popupLargePicture.querySelector('.popup__photo').alt = this._text;
+    openPopup(popupLargePicture);
+  }
+
+}
+
+// добавить карточку
+const addCard = (data, templateSelector) => {
+  const card = new Card(data, templateSelector);
+  const cardElement = card._generateCard();
+  elements.prepend(cardElement);
+};
+
+// добавить набор первоначальных карточек
+const addInitialCards = () => {
+  initialCards.forEach((card) => {
+    addCard(card, cardTemplateSelector);
+  });
+};
+
+// запустить функцию добавления первоначальных карточек
+addInitialCards();
+
+
+// добавить новую фотографию
+function submitPictureForm (evt) {
+  evt.preventDefault();
+  const newCard = {
+  };
+  newCard.name = popupPictureTitle.value;
+  newCard.link = popupPictureLink.value;
+  addCard(newCard, cardTemplateSelector);
+  closePopup(popupPicture);
+}
+
+
+// открыть попап для добавления фотографии
+function openPicturePopup () {
+  openPopup(popupPicture);
+  popupPictureForm.reset();
+  resetValidation(popupPictureForm, validationConfig);
+}
 
 // открыть любой попап
 function openPopup (popup) {
@@ -60,83 +164,6 @@ function submitProfileForm (evt) {
   profileName.textContent = popupProfileName.value;
   profileAbout.textContent = popupProfileAbout.value;
   closePopup(popupProfile);
-}
-
-// поставить фотографии лайк
-function likePicture (evt) {
-  const buttonClick = evt.target;
-  buttonClick.classList.toggle('element__like_active');
-}
-
-// удалить фотографию
-function deletePicture (evt) {
-  evt.target.closest('.element').remove();
-};
-
-// открыть большую версию фотографии
-function openLargePicturePopup (cardName, cardLink) {
-  popupLargePicture.querySelector('.popup__title_largepicture').textContent = cardName;
-  popupLargePicture.querySelector('.popup__photo').src = cardLink;
-  popupLargePicture.querySelector('.popup__photo').alt = cardName;
-  openPopup(popupLargePicture);
-}
-
-// добавить листенеры для элементов карточки
-function setCardEventListeners (element) {
-  const buttonLike = element.querySelector('.element__like');
-  buttonLike.addEventListener ('click', likePicture);
-  const buttonDelete = element.querySelector('.element__delete-button');
-  buttonDelete.addEventListener('click', deletePicture);
-  const buttonOpenLarge = element.querySelector('.element__photo');
-  buttonOpenLarge.addEventListener('click', () => openLargePicturePopup(buttonOpenLarge.alt, buttonOpenLarge.src));
-}
-
-// создать элемент для карточки
-const createCard = (object) => {
-  const newCardElement = elementTemplate.cloneNode(true);
-  newCardElement.querySelector('.element__title').textContent = object.name;
-  const newCardElementPhoto = newCardElement.querySelector('.element__photo');
-  newCardElementPhoto.src = object.link;
-  newCardElementPhoto.alt = object.name;
-  setCardEventListeners(newCardElement);
-  return newCardElement;
-};
-
-// добавить набор первоначальных карточек
-const addInitialCards = () => {
-  initialCards.forEach(addCard);
-};
-
-function renderCard (card) {
-  elements.prepend(card);
-};
-
-// добавить карточку
-const addCard = (object) => {
-  const card = createCard(object);
-  renderCard(card);
-};
-
-// запустить функцию добавления первоначальных карточек
-addInitialCards();
-
-
-// открыть попап для добавления фотографии
-function openPicturePopup () {
-  openPopup(popupPicture);
-  popupPictureForm.reset();
-  resetValidation(popupPictureForm, validationConfig);
-}
-
-// добавить новую фотографию
-function submitPictureForm (evt) {
-  evt.preventDefault();
-  const newCard = {
-  };
-  newCard.name = popupPictureTitle.value;
-  newCard.link = popupPictureLink.value;
-  addCard(newCard);
-  closePopup(popupPicture);
 }
 
 function setPopupEventListeners () {
