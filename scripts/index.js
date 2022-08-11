@@ -35,8 +35,7 @@ class Card {
     this._cardTemplateSelector = templateSelector;
   }
 
-  //приватные методы, которые работают с разметкой
-
+  //приватный метод, который работает с разметкой
   _getTemplate = () => {
     const newCardTemplate = document
     .querySelector(this._cardTemplateSelector)
@@ -49,7 +48,7 @@ class Card {
 
   //публичный метод, который возвращает полностью работоспособный и наполненный данными элемент карточки.
 
-  _generateCard = () => {
+  generateCard = () => {
     this._cardElement = this._getTemplate();
     this._setCardEventListeners();
     this._cardElement.querySelector('.element__title').textContent = this._text;
@@ -93,25 +92,24 @@ class Card {
 
 }
 
-// добавить карточку
+// функция добавления карточки
 const addCard = (data, templateSelector) => {
   const card = new Card(data, templateSelector);
-  const cardElement = card._generateCard();
+  const cardElement = card.generateCard();
   elements.prepend(cardElement);
 };
 
-// добавить набор первоначальных карточек
+// функция добавления набора первоначальных карточек
 const addInitialCards = () => {
   initialCards.forEach((card) => {
     addCard(card, cardTemplateSelector);
   });
 };
 
-// запустить функцию добавления первоначальных карточек
 addInitialCards();
 
 
-// добавить новую фотографию
+// функция отправки новой фотографии
 function submitPictureForm (evt) {
   evt.preventDefault();
   const newCard = {
