@@ -18,14 +18,6 @@ const popupLargePicture = document.querySelector('.popup_type_largepicture');
 const cardTemplateSelector = '#element-template';
 const elements = document.querySelector('.elements');
 
-const validationConfig = {
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__submit-button',
-  inactiveButtonClass: 'popup__submit-button_invalid',
-  inputErrorClass: 'popup__input_error'
-};
-
 //класс создаёт карточку с текстом и ссылкой на изображение и возвращает элемент карточки
 class Card {
   //конструктор принимает данные карточки и селектор её template-элемента
@@ -125,7 +117,8 @@ function submitPictureForm (evt) {
 function openPicturePopup () {
   openPopup(popupPicture);
   popupPictureForm.reset();
-  resetValidation(popupPictureForm, validationConfig);
+  const popupPictureFormValidator = new FormValidator(validationConfig, popupPictureForm);
+  popupPictureFormValidator.resetValidation();
 }
 
 // открыть любой попап
@@ -153,7 +146,8 @@ function openProfilePopup () {
   openPopup(popupProfile);
   popupProfileName.value = profileName.textContent;
   popupProfileAbout.value = profileAbout.textContent;
-  resetValidation(popupProfileForm, validationConfig);
+  const popupProfileFormValidator = new FormValidator(validationConfig, popupProfileForm);
+  popupProfileFormValidator.resetValidation();
 }
 
 // отправить данные профиля
