@@ -1,5 +1,3 @@
-//класс создаёт карточку с текстом и ссылкой на изображение и возвращает элемент карточки
-
 export class Card {
   //конструктор принимает данные карточки и селектор её template-элемента
   constructor(data, templateSelector) {
@@ -63,11 +61,15 @@ export class Card {
     largePicture.querySelector('.popup__photo').src = this._link;
     largePicture.querySelector('.popup__photo').alt = this._text;
     largePicture.classList.add('popup_opened');
-    document.addEventListener('keydown', (evt) => { if (evt.key === 'Escape') {
+    document.addEventListener('keydown', _closeLargePictureEsc)
+
+    function _closeLargePictureEsc(evt) {
+      if (evt.key === 'Escape') {
       largePicture.classList.remove('popup_opened');
-      document.removeEventListener('keydown', this._closeLargePictureEsc);
+      document.removeEventListener('keydown', _closeLargePictureEsc);
       }
-    });
+    }
+
   }
 
 }

@@ -1,5 +1,3 @@
-//класс, который настраивает валидацию полей формы
-
 export class FormValidator {
   // принимает в конструктор объект настроек с селекторами и классами формы;
   // принимает вторым параметром элемент той формы, которая валидируется;
@@ -29,7 +27,6 @@ export class FormValidator {
 
   _checkInputValidity (inputElement) {
     if (!inputElement.validity.valid) {
-      console.log(!inputElement.validity.valid);
       this._showInputError(inputElement, inputElement.validationMessage);
     } else {
       this._hideInputError(inputElement);
