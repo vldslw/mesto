@@ -1,3 +1,34 @@
+// список названий и ссылок для первоначальных карточек
+import { Card } from './Card.js';
+import { FormValidator } from './FormValidator.js';
+
+const initialCards = [
+  {
+    name: 'Архыз',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+  },
+  {
+    name: 'Челябинская область',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+  },
+  {
+    name: 'Иваново',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+  },
+  {
+    name: 'Камчатка',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+  },
+  {
+    name: 'Холмогорский район',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+  },
+  {
+    name: 'Байкал',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+  }
+];
+
 const profileName = document.querySelector('.profile__name');
 const profileAbout = document.querySelector('.profile__about');
 const profileEdit = document.querySelector('.profile__edit');
@@ -13,76 +44,21 @@ const popupPictureForm = popupPicture.querySelector('.popup__form');
 const popupPictureTitle = popupPictureForm.querySelector('.popup__input_type_title');
 const popupPictureLink = popupPictureForm.querySelector('.popup__input_type_link');
 
-const popupLargePicture = document.querySelector('.popup_type_largepicture');
-
 const cardTemplateSelector = '#element-template';
 const elements = document.querySelector('.elements');
 
-//класс создаёт карточку с текстом и ссылкой на изображение и возвращает элемент карточки
-class Card {
-  //конструктор принимает данные карточки и селектор её template-элемента
-  constructor(data, templateSelector) {
-    this._text = data.name;
-    this._link = data.link;
-    this._cardTemplateSelector = templateSelector;
-  }
+const validationConfig = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__submit-button',
+  inactiveButtonClass: 'popup__submit-button_invalid',
+  inputErrorClass: 'popup__input_error'
+};
 
-  //приватный метод, который работает с разметкой
-  _getTemplate = () => {
-    const newCardTemplate = document
-    .querySelector(this._cardTemplateSelector)
-    .content
-    .firstElementChild
-    .cloneNode(true);
-
-    return newCardTemplate;
-  }
-
-  //публичный метод, который возвращает полностью работоспособный и наполненный данными элемент карточки.
-
-  generateCard = () => {
-    this._cardElement = this._getTemplate();
-    this._setCardEventListeners();
-    this._cardElement.querySelector('.element__title').textContent = this._text;
-    this._cardElement.querySelector('.element__photo').alt = this._text;
-    this._cardElement.querySelector('.element__photo').src = this._link;
-
-    return this._cardElement;
-  }
-
-  //приватные методы, которые устанавливают слушателей событий
-  _setCardEventListeners = () => {
-    this._cardElement.querySelector('.element__like').addEventListener ('click', () => {
-      this._likePicture();
-    });
-
-    this._cardElement.querySelector('.element__delete-button').addEventListener('click', () => {
-      this._deletePicture();
-    });
-
-    this._cardElement.querySelector('.element__photo').addEventListener('click', () => {
-      this._openLargePicturePopup();
-    });
-  }
-
-  //приватные методы для каждого обработчика
-
-  _likePicture() {
-    this._cardElement.querySelector('.element__like').classList.toggle('element__like_active');
-  }
-
-  _deletePicture() {
-    this._cardElement.querySelector('.element__delete-button').closest('.element').remove();
-  }
-
-  _openLargePicturePopup() {
-    popupLargePicture.querySelector('.popup__title_largepicture').textContent = this._text;
-    popupLargePicture.querySelector('.popup__photo').src = this._link;
-    popupLargePicture.querySelector('.popup__photo').alt = this._text;
-    openPopup(popupLargePicture);
-  }
-
-}
+Array.from(document.querySelectorAll(validationConfig.formSelector)).forEach((formElement) => {
+    const newFormValidator = new FormValidator(validationConfig, formElement);
+    newFormValidator.enableValidation();
+});
 
 // функция добавления карточки
 const addCard = (data, templateSelector) => {

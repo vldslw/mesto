@@ -1,13 +1,6 @@
-const validationConfig = {
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__submit-button',
-  inactiveButtonClass: 'popup__submit-button_invalid',
-  inputErrorClass: 'popup__input_error'
-};
-
 //класс, который настраивает валидацию полей формы
-class FormValidator {
+
+export class FormValidator {
   // принимает в конструктор объект настроек с селекторами и классами формы;
   // принимает вторым параметром элемент той формы, которая валидируется;
   constructor(validationConfig, formElement) {
@@ -57,7 +50,6 @@ class FormValidator {
 
   _setInputEventListeners() {
     Array.from(this.formElement.querySelectorAll(this.inputSelector)).forEach((inputElement) => {
-      console.log(inputElement);
       inputElement.addEventListener('input', () => {
         this._checkInputValidity(inputElement);
       });
@@ -89,9 +81,3 @@ class FormValidator {
   }
 
 }
-
-Array.from(document.querySelectorAll(validationConfig.formSelector)).forEach((formElement) => {
-    const newFormValidator = new FormValidator(validationConfig, formElement);
-    newFormValidator.enableValidation();
-});
-
