@@ -44,6 +44,8 @@ const popupPictureForm = popupPicture.querySelector('.popup__form');
 const popupPictureTitle = popupPictureForm.querySelector('.popup__input_type_title');
 const popupPictureLink = popupPictureForm.querySelector('.popup__input_type_link');
 
+const largePicture = document.querySelector('.popup_type_largepicture');
+
 const cardTemplateSelector = '#element-template';
 const elements = document.querySelector('.elements');
 
@@ -55,22 +57,45 @@ const validationConfig = {
   inputErrorClass: 'popup__input_error'
 };
 
-Array.from(document.querySelectorAll(validationConfig.formSelector)).forEach((formElement) => {
-    const newFormValidator = new FormValidator(validationConfig, formElement);
-    newFormValidator.enableValidation();
-});
+const formValidators = {};
+
+// функция включения валидации
+const turnOnValidation = (config) => {
+  const formList = Array.from(document.querySelectorAll(config.formSelector));
+  formList.forEach((formElement) => {
+    const validator = new FormValidator(config, formElement);
+    const formName = formElement.getAttribute('name');
+    formValidators[formName] = validator;
+    validator.enableValidation();
+  });
+};
+
+turnOnValidation(validationConfig);
+
+function handleCardClick(name, link) {
+  largePicture.querySelector('.popup__photo').src = link;
+  largePicture.querySelector('.popup__title_largepicture').textContent = name;
+  largePicture.querySelector('.popup__photo').alt = name;
+  openPopup(largePicture);
+}
+
+// функция создания карточки
+function createCard(item) {
+  const card = new Card(item, cardTemplateSelector, handleCardClick);
+  const cardElement = card.generateCard();
+  return cardElement;
+}
 
 // функция добавления карточки
-const addCard = (data, templateSelector) => {
-  const card = new Card(data, templateSelector);
-  const cardElement = card.generateCard();
-  elements.prepend(cardElement);
-};
+function addCard (item) {
+  const card = createCard(item)
+  elements.prepend(card);
+}
 
 // функция добавления набора первоначальных карточек
 const addInitialCards = () => {
   initialCards.forEach((card) => {
-    addCard(card, cardTemplateSelector);
+    addCard(card);
   });
 };
 
@@ -84,7 +109,7 @@ function submitPictureForm (evt) {
   };
   newCard.name = popupPictureTitle.value;
   newCard.link = popupPictureLink.value;
-  addCard(newCard, cardTemplateSelector);
+  addCard(newCard);
   closePopup(popupPicture);
 }
 
@@ -93,8 +118,7 @@ function submitPictureForm (evt) {
 function openPicturePopup () {
   openPopup(popupPicture);
   popupPictureForm.reset();
-  const popupPictureFormValidator = new FormValidator(validationConfig, popupPictureForm);
-  popupPictureFormValidator.resetValidation();
+  formValidators[popupPictureForm.getAttribute('name')].resetValidation();
 }
 
 // открыть любой попап
@@ -122,8 +146,7 @@ function openProfilePopup () {
   openPopup(popupProfile);
   popupProfileName.value = profileName.textContent;
   popupProfileAbout.value = profileAbout.textContent;
-  const popupProfileFormValidator = new FormValidator(validationConfig, popupProfileForm);
-  popupProfileFormValidator.resetValidation();
+  formValidators[popupProfileForm.getAttribute('name')].resetValidation();
 }
 
 // отправить данные профиля

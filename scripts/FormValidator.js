@@ -8,6 +8,8 @@ export class FormValidator {
     this.inactiveButtonClass = validationConfig.inactiveButtonClass;
     this.inputErrorClass = validationConfig.inputErrorClass;
     this.formElement = formElement;
+    this._inputList = Array.from(this.formElement.querySelectorAll(this.inputSelector));
+    this._submitButton = this.formElement.querySelector(this.submitButtonSelector);
   }
 
   //приватные методы, которые обрабатывают форму:
@@ -35,18 +37,17 @@ export class FormValidator {
 
   _toggleButtonState () {
     if (this.formElement.checkValidity()) {
-      this.formElement.querySelector(this.submitButtonSelector).removeAttribute('disabled');
-      this.formElement.querySelector(this.submitButtonSelector).classList.remove(this.inactiveButtonClass);
+      this._submitButton.removeAttribute('disabled');
+      this._submitButton.classList.remove(this.inactiveButtonClass);
     } else {
-      this.formElement.querySelector(this.submitButtonSelector).setAttribute('disabled', true);
-      this.formElement.querySelector(this.submitButtonSelector).classList.add(this.inactiveButtonClass);
+      this._submitButton.setAttribute('disabled', true);
+      this._submitButton.classList.add(this.inactiveButtonClass);
     };
   }
 
   //устанавливают все обработчики;
-
   _setInputEventListeners() {
-    Array.from(this.formElement.querySelectorAll(this.inputSelector)).forEach((inputElement) => {
+    this._inputList.forEach((inputElement) => {
       inputElement.addEventListener('input', () => {
         this._checkInputValidity(inputElement);
       });
@@ -60,7 +61,6 @@ export class FormValidator {
   }
 
   //публичный метод enableValidation, который включает валидацию формы
-
   enableValidation = () => {
     this.formElement.addEventListener('submit', (evt) => {
       evt.preventDefault();
@@ -69,10 +69,10 @@ export class FormValidator {
     this._setFormEventListeners();
   }
 
-  //публичный метод resetValidation, который очищает ошибки и состояние кнопки при открытии папапа
+  //публичный метод resetValidation, который очищает ошибки и состояние кнопки при открытии попапа
   resetValidation() {
     this._toggleButtonState();
-    Array.from(this.formElement.querySelectorAll(this.inputSelector)).forEach((inputElement) => {
+    this._inputList.forEach((inputElement) => {
       this._hideInputError(inputElement);
     });
   }
