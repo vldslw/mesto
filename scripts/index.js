@@ -45,6 +45,8 @@ const popupPictureTitle = popupPictureForm.querySelector('.popup__input_type_tit
 const popupPictureLink = popupPictureForm.querySelector('.popup__input_type_link');
 
 const largePicture = document.querySelector('.popup_type_largepicture');
+const largePictureImage = largePicture.querySelector('.popup__photo');
+const largePictureTitle = largePicture.querySelector('.popup__title_largepicture');
 
 const cardTemplateSelector = '#element-template';
 const elements = document.querySelector('.elements');
@@ -73,9 +75,9 @@ const turnOnValidation = (config) => {
 turnOnValidation(validationConfig);
 
 function handleCardClick(name, link) {
-  largePicture.querySelector('.popup__photo').src = link;
-  largePicture.querySelector('.popup__title_largepicture').textContent = name;
-  largePicture.querySelector('.popup__photo').alt = name;
+  largePictureImage.src = link;
+  largePictureTitle.textContent = name;
+  largePictureImage.alt = name;
   openPopup(largePicture);
 }
 
