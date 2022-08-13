@@ -1,7 +1,7 @@
-// список названий и ссылок для первоначальных карточек
 import { Card } from './Card.js';
 import { FormValidator } from './FormValidator.js';
 
+// список названий и ссылок для первоначальных карточек
 const initialCards = [
   {
     name: 'Архыз',
@@ -114,7 +114,6 @@ function submitPictureForm (evt) {
   addCard(newCard);
   closePopup(popupPicture);
 }
-
 
 // открыть попап для добавления фотографии
 function openPicturePopup () {
