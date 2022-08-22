@@ -141,24 +141,24 @@ function openPicturePopup () {
 }
 
 // открыть любой попап
-function openPopup (popup) {
-  popup.classList.add('popup_opened');
-  document.addEventListener('keydown', closePopupEsc);
-}
+// function openPopup (popup) {
+//   popup.classList.add('popup_opened');
+//   document.addEventListener('keydown', closePopupEsc);
+// }
 
 // закрыть любой попап
-function closePopup (popup) {
-  popup.classList.remove('popup_opened');
-  document.removeEventListener('keydown', closePopupEsc);
-}
+// function closePopup (popup) {
+//   popup.classList.remove('popup_opened');
+//   document.removeEventListener('keydown', closePopupEsc);
+// }
 
 // закрыть попап с помощью клавиши Esc
-function closePopupEsc (evt) {
-  if (evt.key === 'Escape') {
-    const popup = document.querySelector('.popup_opened');
-    closePopup(popup);
-  }
-};
+// function closePopupEsc (evt) {
+//   if (evt.key === 'Escape') {
+//     const popup = document.querySelector('.popup_opened');
+//     closePopup(popup);
+//   }
+// };
 
 // открыть и заполнить попап данными профиля
 function openProfilePopup () {
@@ -176,20 +176,20 @@ function submitProfileForm (evt) {
   closePopup(popupProfile);
 }
 
-function setPopupEventListeners () {
-  const popups = Array.from(document.querySelectorAll('.popup'));
+// function setPopupEventListeners () {
+//   const popups = Array.from(document.querySelectorAll('.popup'));
 
-  popups.forEach((popup) => {
-    popup.addEventListener('click', (event) => {
-    if (event.target === event.currentTarget || event.target.classList.contains('popup__close-button')) {
-      closePopup(popup)
-    }
-    });
+//   popups.forEach((popup) => {
+//     popup.addEventListener('click', (event) => {
+//     if (event.target === event.currentTarget || event.target.classList.contains('popup__close-button')) {
+//       closePopup(popup)
+//     }
+//     });
 
-  });
-}
+//   });
+// }
 
-setPopupEventListeners();
+// setPopupEventListeners();
 popupProfileForm.addEventListener('submit', submitProfileForm);
 profileEdit.addEventListener('click', openProfilePopup);
 popupPictureForm.addEventListener('submit', submitPictureForm);
