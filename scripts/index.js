@@ -1,5 +1,6 @@
-import { Card } from './Card.js';
-import { FormValidator } from './FormValidator.js';
+import Card  from './Card.js';
+import FormValidator from './FormValidator.js';
+import Section  from './Section.js';
 
 // список названий и ссылок для первоначальных карточек
 const initialCards = [
@@ -49,7 +50,8 @@ const largePictureImage = largePicture.querySelector('.popup__photo');
 const largePictureTitle = largePicture.querySelector('.popup__title_largepicture');
 
 const cardTemplateSelector = '#element-template';
-const elements = document.querySelector('.elements');
+const cardListSection = '.elements';
+// const elements = document.querySelector('.elements');
 
 const validationConfig = {
   formSelector: '.popup__form',
@@ -74,6 +76,19 @@ const turnOnValidation = (config) => {
 
 turnOnValidation(validationConfig);
 
+//дальше отрисовка карточек через Section
+
+const cardsList = new Section({
+  items: initialCards,
+  renderer: (item) => {
+    const card = new Card(item, cardTemplateSelector, handleCardClick);
+    const cardElement = card.generateCard();
+    cardsList.addItem(cardElement);
+    }
+  },
+    cardListSection
+);
+
 function handleCardClick(name, link) {
   largePictureImage.src = link;
   largePictureTitle.textContent = name;
@@ -81,27 +96,30 @@ function handleCardClick(name, link) {
   openPopup(largePicture);
 }
 
+cardsList.renderItems();
+
+
 // функция создания карточки
-function createCard(item) {
-  const card = new Card(item, cardTemplateSelector, handleCardClick);
-  const cardElement = card.generateCard();
-  return cardElement;
-}
+// function createCard(item) {
+//   const card = new Card(item, cardTemplateSelector, handleCardClick);
+//   const cardElement = card.generateCard();
+//   return cardElement;
+// }
 
 // функция добавления карточки
-function addCard (item) {
-  const card = createCard(item)
-  elements.prepend(card);
-}
+// function addCard (item) {
+//   const card = createCard(item)
+//   elements.prepend(card);
+// }
 
 // функция добавления набора первоначальных карточек
-const addInitialCards = () => {
-  initialCards.forEach((card) => {
-    addCard(card);
-  });
-};
+// const addInitialCards = () => {
+//   initialCards.forEach((card) => {
+//     addCard(card);
+//   });
+// };
 
-addInitialCards();
+// addInitialCards();
 
 
 // функция отправки новой фотографии
