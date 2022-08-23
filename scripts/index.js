@@ -1,6 +1,8 @@
 import Card  from './Card.js';
 import FormValidator from './FormValidator.js';
 import Section  from './Section.js';
+import Popup from './Popup.js';
+import PopupWithImage from './PopupWithImage.js';
 
 // список названий и ссылок для первоначальных карточек
 const initialCards = [
@@ -45,9 +47,9 @@ const popupPictureForm = popupPicture.querySelector('.popup__form');
 const popupPictureTitle = popupPictureForm.querySelector('.popup__input_type_title');
 const popupPictureLink = popupPictureForm.querySelector('.popup__input_type_link');
 
-const largePicture = document.querySelector('.popup_type_largepicture');
-const largePictureImage = largePicture.querySelector('.popup__photo');
-const largePictureTitle = largePicture.querySelector('.popup__title_largepicture');
+const largePictureSelector = '.popup_type_largepicture';
+// const largePictureImage = largePicture.querySelector('.popup__photo');
+// const largePictureTitle = largePicture.querySelector('.popup__title_largepicture');
 
 const cardTemplateSelector = '#element-template';
 const cardListSection = '.elements';
@@ -90,10 +92,13 @@ const cardsList = new Section({
 );
 
 function handleCardClick(name, link) {
-  largePictureImage.src = link;
-  largePictureTitle.textContent = name;
-  largePictureImage.alt = name;
-  openPopup(largePicture);
+  const popup = new PopupWithImage(name, link, largePictureSelector);
+  popup.open();
+
+  // largePictureImage.src = link;
+  // largePictureTitle.textContent = name;
+  // largePictureImage.alt = name;
+  // openPopup(largePicture);
 }
 
 cardsList.renderItems();
