@@ -16,8 +16,6 @@ export default class PopupWithImage extends Popup {
     this._popupTitle.textContent = this._name;
     this._popupImage.alt = this._name;
     super.open();
-    super.setEventListeners();
-    console.log('Установлены слушатели на X');
   }
 
 }
