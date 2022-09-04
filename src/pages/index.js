@@ -34,12 +34,16 @@ const turnOnValidation = (config) => {
 
 turnOnValidation(validationConfig);
 
+function createCard(item) {
+  const card = new Card(item, cardTemplateSelector, handleCardClick);
+  const cardElement = card.generateCard();
+  return cardElement
+}
+
 const cardsList = new Section({
   items: initialCards,
   renderer: (item) => {
-    const card = new Card(item, cardTemplateSelector, handleCardClick);
-    const cardElement = card.generateCard();
-    cardsList.addItem(cardElement);
+    cardsList.addItem(createCard(item));
     }
   },
     cardListSection
@@ -61,9 +65,7 @@ function handleCardClick(name, link) {
 const picturePopup = new PopupWithForm(popupPicture, {
   submitForm: (evt) => {
     evt.preventDefault();
-    const card = new Card(picturePopup._getInputValues(), cardTemplateSelector, handleCardClick);
-    const cardElement = card.generateCard();
-    cardsList.addItem(cardElement);
+    cardsList.addItem(createCard(picturePopup.getInputValues()));
     picturePopup.close();
   },
   formValidators: formValidators
@@ -86,7 +88,7 @@ const profileInfo = new UserInfo ({
 const profilePopup = new PopupWithForm(popupProfile, {
   submitForm: (evt) => {
     evt.preventDefault();
-    const profileInputValues = profilePopup._getInputValues();
+    const profileInputValues = profilePopup.getInputValues();
     profileInfo.setUserInfo(profileInputValues);
     profilePopup.close();
   },
@@ -99,8 +101,7 @@ profilePopup.setEventListeners();
 function editProfilePopup () {
   //заполнить поля данными из профиля
   const userInfo = profileInfo.getUserInfo();
-  profilePopup._popupInputName.value = userInfo.name;
-  profilePopup._popupInputAbout.value = userInfo.about;
+  profilePopup.setInputValues(userInfo);
   //открыть попап
    profilePopup.open();
 }
