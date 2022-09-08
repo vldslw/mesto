@@ -1,4 +1,5 @@
 import '../pages/index.css';
+import Api  from '../components/Api.js';
 import Card  from '../components/Card.js';
 import FormValidator from '../components/FormValidator.js';
 import Section  from '../components/Section.js';
@@ -7,9 +8,9 @@ import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
 
 import {
-  initialCards,
   profileName,
   profileAbout,
+  profileAvatar,
   profileEdit,
   popupProfile,
   pictureAddButton,
@@ -34,22 +35,76 @@ const turnOnValidation = (config) => {
 
 turnOnValidation(validationConfig);
 
-function createCard(item) {
-  const card = new Card(item, cardTemplateSelector, handleCardClick);
+function createCard(data) {
+  const card = new Card(data, cardTemplateSelector, handleCardClick);
   const cardElement = card.generateCard();
   return cardElement
 }
 
+// const cardsList = new Section({
+//   items: initialCards,
+//   renderer: (item) => {
+//     cardsList.addItem(createCard(item));
+//     }
+//   },
+//     cardListSection
+// );
+
+// cardsList.renderItems();
+
+// const api = new Api({
+//   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-49',
+//   headers: {
+//     authorization: '0709850e-2cbd-4a8e-8f4e-5a01f045740a',
+//     'Content-Type': 'application/json'
+//   }
+// });
+
 const cardsList = new Section({
-  items: initialCards,
   renderer: (item) => {
     cardsList.addItem(createCard(item));
-    }
-  },
-    cardListSection
+  }
+},
+cardListSection
 );
 
-cardsList.renderItems();
+function getInitialCards() {
+  fetch('https://mesto.nomoreparties.co/v1/cohort-49/cards', {
+    headers: {
+      authorization: '0709850e-2cbd-4a8e-8f4e-5a01f045740a'
+    }
+  })
+  .then((res) => {
+    return res.json();
+  })
+  .then((data) => {
+    cardsList.renderItems(data);
+  })
+  .catch(() => {
+    console.log('Не удалось загрузить карточки')
+  })
+}
+
+getInitialCards();
+
+function getProfileInfo() {
+  fetch('https://mesto.nomoreparties.co/v1/cohort-49/users/me', {
+    headers: {
+      authorization: '0709850e-2cbd-4a8e-8f4e-5a01f045740a'
+    }
+  })
+  .then((res) => {
+    return res.json();
+  })
+  .then((data) => {
+    profileInfo.setUserInfo(data);
+  })
+  .catch(() => {
+    console.log('Не удалось загрузить информацию профиля');
+  })
+}
+
+getProfileInfo();
 
 // создать попап для большой картинки
 const popup = new PopupWithImage(largePictureSelector);
@@ -61,12 +116,36 @@ function handleCardClick(name, link) {
   popup.open(name, link);
 }
 
+async function postCard(data) {
+  const res = await fetch('https://mesto.nomoreparties.co/v1/cohort-49/cards', {
+      method: "post",
+      headers: {
+        authorization: '0709850e-2cbd-4a8e-8f4e-5a01f045740a',
+        'Content-Type': 'application/json; charset=utf-8'
+      },
+      body: JSON.stringify({
+        name: data.title,
+        link: data.link
+      })
+  });
+
+  const cardData = await res.json();
+  return cardData;
+}
+
 // создать попап для добавления фотографии
 const picturePopup = new PopupWithForm(popupPicture, {
-  submitForm: (evt) => {
+  submitForm: async (evt) => {
     evt.preventDefault();
-    cardsList.addItem(createCard(picturePopup.getInputValues()));
-    picturePopup.close();
+
+    try {
+      const inputs = picturePopup.getInputValues();
+      const cardData = await postCard(inputs);
+      cardsList.addItem(createCard(cardData));
+      picturePopup.close();
+    } catch {
+      console.log('Не удалось создать карточку');
+    }
   },
   formValidators: formValidators
 });
@@ -81,7 +160,8 @@ function addPicturePopup () {
 // создать класс управления информацией о пользователе
 const profileInfo = new UserInfo ({
   profileNameSelector: profileName,
-  profileAboutSelector: profileAbout
+  profileAboutSelector: profileAbout,
+  profileAvatarSelector: profileAvatar
 });
 
 // создать попап для редактирования профиля

@@ -1,7 +1,7 @@
 export default class Card {
   //конструктор принимает данные карточки и селектор её template-элемента
   constructor(data, templateSelector, handleCardClick) {
-    this._text = data.title;
+    this._text = data.name;
     this._link = data.link;
     this._cardTemplateSelector = templateSelector;
     this._handleCardClick = handleCardClick;

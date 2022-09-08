@@ -35,6 +35,7 @@ export const initialCards = [
 
 export const profileName = '.profile__name';
 export const profileAbout = '.profile__about';
+export const profileAvatar = '.profile__avatar';
 export const profileEdit = document.querySelector('.profile__edit');
 
 export const popupProfile = '.popup_type_profile';
