@@ -106,6 +106,23 @@ function getProfileInfo() {
 
 getProfileInfo();
 
+async function updateProfileInfo(data) {
+  const res = await fetch('https://mesto.nomoreparties.co/v1/cohort-49/users/me', {
+    method: 'PATCH',
+    headers: {
+      authorization: '0709850e-2cbd-4a8e-8f4e-5a01f045740a',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      name: data.name,
+      about: data.about
+    })
+  });
+
+  const profileInfo = await res.json();
+  return profileInfo;
+}
+
 // создать попап для большой картинки
 const popup = new PopupWithImage(largePictureSelector);
 // навесить на него слушатели
@@ -149,6 +166,7 @@ const picturePopup = new PopupWithForm(popupPicture, {
   },
   formValidators: formValidators
 });
+
 // навесить на него слушатели
 picturePopup.setEventListeners();
 
@@ -166,11 +184,18 @@ const profileInfo = new UserInfo ({
 
 // создать попап для редактирования профиля
 const profilePopup = new PopupWithForm(popupProfile, {
-  submitForm: (evt) => {
+  submitForm: async (evt) => {
     evt.preventDefault();
-    const profileInputValues = profilePopup.getInputValues();
-    profileInfo.setUserInfo(profileInputValues);
-    profilePopup.close();
+
+    try {
+      const profileInputValues = profilePopup.getInputValues();
+      console.log(profileInputValues);
+      const profileData = await updateProfileInfo(profileInputValues);
+      profileInfo.setUserInfo(profileData);
+      profilePopup.close();
+    } catch {
+
+    }
   },
   formValidators: formValidators
 });
