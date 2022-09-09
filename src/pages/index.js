@@ -6,6 +6,7 @@ import Section  from '../components/Section.js';
 import Popup from '../components/Popup.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
+import PopupDelete from '../components/PopupDelete.js';
 import UserInfo from '../components/UserInfo.js';
 
 import {
@@ -41,9 +42,21 @@ turnOnValidation(validationConfig);
 let userId = getUserId().then(res => userId = res);
 
 function createCard(data) {
-  const card = new Card(data, cardTemplateSelector, handleCardClick, deletePopup, userId);
+  const card = new Card(data, cardTemplateSelector, handleCardClick, deletePopup, deletePopopSelector, userId);
   const cardElement = card.generateCard();
   return cardElement
+}
+
+export default async function deleteCard(id) {
+  const res = await fetch(`https://mesto.nomoreparties.co/v1/cohort-49/cards/${id}`, {
+      method: "delete",
+      headers: {
+        authorization: '0709850e-2cbd-4a8e-8f4e-5a01f045740a',
+      }
+  });
+
+  const data = await res.json();
+  return data;
 }
 
 // const api = new Api({
@@ -240,7 +253,7 @@ function editProfilePopup () {
 }
 
 //создать попап с предупреждением об удалении фотографии
-const deletePopup = new Popup(deletePopopSelector);
+const deletePopup = new PopupDelete(deletePopopSelector);
 //навесить на него слушатели
 deletePopup.setEventListeners();
 

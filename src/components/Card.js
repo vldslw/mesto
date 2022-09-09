@@ -1,13 +1,17 @@
+import deleteCard from '../pages/index.js';
+
 export default class Card {
   //конструктор принимает данные карточки и селектор её template-элемента
-  constructor(data, templateSelector, handleCardClick, deletePopup, userId) {
+  constructor(data, templateSelector, handleCardClick, deletePopup, deletePopopSelector, userId) {
     this._text = data.name;
     this._link = data.link;
+    this._cardId = data._id;
     this._cardOwnerId = data.owner._id;
     this._likesNumber = data.likes.length;
     this._cardTemplateSelector = templateSelector;
     this._handleCardClick = handleCardClick;
     this._deletePopup = deletePopup;
+    this._deletePopupButton = document.querySelector(deletePopopSelector).querySelector('.popup__submit-button_type_delete');
     this._userId = userId;
   }
 
@@ -37,6 +41,8 @@ export default class Card {
     this._cardImage.src = this._link;
     this._likeCount.textContent = this._likesNumber;
 
+    console.log(this._userId);
+    console.log(this._cardOwnerId);
     if (this._userId != this._cardOwnerId) {
       console.log('Карточка не моя');
       this._deleteButton.classList.add('element__delete-button_inactive');
@@ -52,7 +58,7 @@ export default class Card {
     });
 
     this._deleteButton.addEventListener('click', () => {
-      this._deletePicture();
+      this._deletePopupOpen();
     });
 
     this._cardImage.addEventListener('click', () => {
@@ -65,9 +71,22 @@ export default class Card {
     this._likeButton.classList.toggle('element__like_active');
   }
 
-  _deletePicture() {
+  _deletePopupOpen () {
     this._deletePopup.open();
-    // this._deleteButton.closest('.element').remove();
+    this._deletePopupButton.addEventListener('click', this._deletePicture);
+    // this._deletePopup.setDeleteListener(this._cardId);
+  }
+
+  _deletePicture = async () => {
+    try {
+      console.log(this._cardId);
+      await deleteCard(this._cardId);
+      this._deleteButton.closest('.element').remove();
+      this._deletePopup.close();
+      this._deletePopupButton.removeEventListener('click', this._deletePicture);
+    } catch {
+      console.log('Не удалось удалить карточку');
+    }
   }
 
 }
