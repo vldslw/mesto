@@ -62,6 +62,13 @@
         <h2 class="popup__title popup__title_largepicture"></h2>
       </div>
     </div>
+    <div class="popup popup_type_delete">
+      <div class="popup__container popup__container_type_delete">
+        <button class="popup__close-button" type="button"></button>
+        <h2 class="popup__title popup__title_delete">Вы уверены?</h2>
+        <button type="submit" class="popup__submit-button popup__submit-button_type_delete">Да</button>
+      </div>
+    </div>
   </div>
   <template id="element-template">
     <article class="element">
@@ -69,7 +76,10 @@
       <button class="element__delete-button" type="button"></button>
       <div class="element__desc">
         <h2 class="element__title"></h2>
-        <button class="element__like" type="button"></button>
+        <div class="element__like-container">
+          <button class="element__like" type="button"></button>
+          <p class="element__like-count"></p>
+        </div>
       </div>
     </article>
   </template>

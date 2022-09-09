@@ -8,8 +8,19 @@
   box-sizing: border-box;
 }
 
+.error:last-of-type {
+  margin: 5px 36px 18px;
+}
+
 @media screen and (max-width: 768px) {
   .error {
     margin: 5px 22px 0;
   }
+
+  .error:last-of-type {
+    margin: 5px 22px 15px;
+  }
 }
+
+
+

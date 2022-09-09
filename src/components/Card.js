@@ -1,10 +1,12 @@
 export default class Card {
   //конструктор принимает данные карточки и селектор её template-элемента
-  constructor(data, templateSelector, handleCardClick) {
+  constructor(data, templateSelector, handleCardClick, deletePopup) {
     this._text = data.name;
     this._link = data.link;
+    this._likesNumber = data.likes.length;
     this._cardTemplateSelector = templateSelector;
     this._handleCardClick = handleCardClick;
+    this._deletePopup = deletePopup;
   }
 
   //приватный метод, который работает с разметкой
@@ -25,11 +27,13 @@ export default class Card {
     this._cardTitle = this._cardElement.querySelector('.element__title');
     this._deleteButton = this._cardElement.querySelector('.element__delete-button');
     this._likeButton = this._cardElement.querySelector('.element__like');
+    this._likeCount = this._cardElement.querySelector('.element__like-count');
 
     this._setCardEventListeners();
     this._cardTitle.textContent = this._text;
     this._cardImage.alt = this._text;
     this._cardImage.src = this._link;
+    this._likeCount.textContent = this._likesNumber;
 
     return this._cardElement;
   }
@@ -55,7 +59,8 @@ export default class Card {
   }
 
   _deletePicture() {
-    this._deleteButton.closest('.element').remove();
+    this._deletePopup.open();
+    // this._deleteButton.closest('.element').remove();
   }
 
 }

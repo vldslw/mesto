@@ -48,6 +48,8 @@ export const largePictureSelector = '.popup_type_largepicture';
 export const cardTemplateSelector = '#element-template';
 export const cardListSection = '.elements';
 
+export const deletePopopSelector = '.popup_type_delete';
+
 export const validationConfig = {
   formSelector: '.popup__form',
   inputSelector: '.popup__input',

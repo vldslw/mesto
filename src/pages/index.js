@@ -3,6 +3,7 @@ import Api  from '../components/Api.js';
 import Card  from '../components/Card.js';
 import FormValidator from '../components/FormValidator.js';
 import Section  from '../components/Section.js';
+import Popup from '../components/Popup.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
@@ -17,6 +18,7 @@ import {
   popupPicture,
   largePictureSelector,
   cardTemplateSelector,
+  deletePopopSelector,
   cardListSection,
   validationConfig,
   formValidators
@@ -36,21 +38,10 @@ const turnOnValidation = (config) => {
 turnOnValidation(validationConfig);
 
 function createCard(data) {
-  const card = new Card(data, cardTemplateSelector, handleCardClick);
+  const card = new Card(data, cardTemplateSelector, handleCardClick, deletePopup);
   const cardElement = card.generateCard();
   return cardElement
 }
-
-// const cardsList = new Section({
-//   items: initialCards,
-//   renderer: (item) => {
-//     cardsList.addItem(createCard(item));
-//     }
-//   },
-//     cardListSection
-// );
-
-// cardsList.renderItems();
 
 // const api = new Api({
 //   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-49',
@@ -210,6 +201,11 @@ function editProfilePopup () {
   //открыть попап
    profilePopup.open();
 }
+
+//создать попап с предупреждением об удалении фотографии
+const deletePopup = new Popup(deletePopopSelector);
+//навесить на него слушатели
+deletePopup.setEventListeners();
 
 profileEdit.addEventListener('click', editProfilePopup);
 pictureAddButton.addEventListener('click', addPicturePopup);
