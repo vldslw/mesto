@@ -20,6 +20,7 @@ import {
   cardTemplateSelector,
   deletePopopSelector,
   cardListSection,
+  // thisUserId,
   validationConfig,
   formValidators
 } from '../utils/constants.js';
@@ -37,8 +38,10 @@ const turnOnValidation = (config) => {
 
 turnOnValidation(validationConfig);
 
+let userId = getUserId().then(res => userId = res);
+
 function createCard(data) {
-  const card = new Card(data, cardTemplateSelector, handleCardClick, deletePopup);
+  const card = new Card(data, cardTemplateSelector, handleCardClick, deletePopup, userId);
   const cardElement = card.generateCard();
   return cardElement
 }
@@ -59,24 +62,36 @@ const cardsList = new Section({
 cardListSection
 );
 
-function getInitialCards() {
-  fetch('https://mesto.nomoreparties.co/v1/cohort-49/cards', {
+async function getUserId() {
+  const res = await fetch('https://mesto.nomoreparties.co/v1/cohort-49/users/me', {
     headers: {
       authorization: '0709850e-2cbd-4a8e-8f4e-5a01f045740a'
     }
-  })
-  .then((res) => {
-    return res.json();
-  })
-  .then((data) => {
-    cardsList.renderItems(data);
-  })
-  .catch(() => {
-    console.log('Не удалось загрузить карточки')
-  })
+  });
+
+  const data = await res.json();
+  const userId = data._id;
+  console.log(userId);
+  return userId;
 }
 
-getInitialCards();
+// function getUserId() {
+//   fetch('https://mesto.nomoreparties.co/v1/cohort-49/users/me', {
+//     headers: {
+//       authorization: '0709850e-2cbd-4a8e-8f4e-5a01f045740a'
+//     }
+//   })
+//   .then((res) => {
+//     return res.json();
+//   })
+//   .then((data) => {
+//     const userId = data._id;
+//     return userId;
+//   })
+//   .catch(() => {
+//     console.log('Не удалось загрузить id пользователя');
+//   })
+// }
 
 function getProfileInfo() {
   fetch('https://mesto.nomoreparties.co/v1/cohort-49/users/me', {
@@ -89,6 +104,7 @@ function getProfileInfo() {
   })
   .then((data) => {
     profileInfo.setUserInfo(data);
+    // profileInfo.setUserId(data._id);
   })
   .catch(() => {
     console.log('Не удалось загрузить информацию профиля');
@@ -96,6 +112,26 @@ function getProfileInfo() {
 }
 
 getProfileInfo();
+
+function getInitialCards() {
+  fetch('https://mesto.nomoreparties.co/v1/cohort-49/cards', {
+    headers: {
+      authorization: '0709850e-2cbd-4a8e-8f4e-5a01f045740a'
+    }
+  })
+  .then((res) => {
+    return res.json();
+  })
+  .then((data) => {
+    console.log(data);
+    cardsList.renderItems(data);
+  })
+  .catch(() => {
+    console.log('Не удалось загрузить карточки')
+  })
+}
+
+getInitialCards();
 
 async function updateProfileInfo(data) {
   const res = await fetch('https://mesto.nomoreparties.co/v1/cohort-49/users/me', {
@@ -171,6 +207,7 @@ const profileInfo = new UserInfo ({
   profileNameSelector: profileName,
   profileAboutSelector: profileAbout,
   profileAvatarSelector: profileAvatar
+  // thisUserId: thisUserId
 });
 
 // создать попап для редактирования профиля

@@ -1,12 +1,14 @@
 export default class Card {
   //конструктор принимает данные карточки и селектор её template-элемента
-  constructor(data, templateSelector, handleCardClick, deletePopup) {
+  constructor(data, templateSelector, handleCardClick, deletePopup, userId) {
     this._text = data.name;
     this._link = data.link;
+    this._cardOwnerId = data.owner._id;
     this._likesNumber = data.likes.length;
     this._cardTemplateSelector = templateSelector;
     this._handleCardClick = handleCardClick;
     this._deletePopup = deletePopup;
+    this._userId = userId;
   }
 
   //приватный метод, который работает с разметкой
@@ -34,6 +36,11 @@ export default class Card {
     this._cardImage.alt = this._text;
     this._cardImage.src = this._link;
     this._likeCount.textContent = this._likesNumber;
+
+    if (this._userId != this._cardOwnerId) {
+      console.log('Карточка не моя');
+      this._deleteButton.classList.add('element__delete-button_inactive');
+    }
 
     return this._cardElement;
   }

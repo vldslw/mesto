@@ -49,6 +49,7 @@ export const cardTemplateSelector = '#element-template';
 export const cardListSection = '.elements';
 
 export const deletePopopSelector = '.popup_type_delete';
+// export const thisUserId = '';
 
 export const validationConfig = {
   formSelector: '.popup__form',
