@@ -72,21 +72,21 @@ export default class Card {
   }
 
   _deletePopupOpen () {
-    this._deletePopup.open();
-    this._deletePopupButton.addEventListener('click', this._deletePicture);
+    this._deletePopup.open(this._cardId, this._deleteButton);
+    // this._deletePopupButton.addEventListener('click', this._deletePicture);
     // this._deletePopup.setDeleteListener(this._cardId);
   }
 
-  _deletePicture = async () => {
-    try {
-      console.log(this._cardId);
-      await deleteCard(this._cardId);
-      this._deleteButton.closest('.element').remove();
-      this._deletePopup.close();
-      this._deletePopupButton.removeEventListener('click', this._deletePicture);
-    } catch {
-      console.log('Не удалось удалить карточку');
-    }
-  }
+  // _deletePicture = async () => {
+  //   try {
+  //     console.log(this._cardId);
+  //     await deleteCard(this._cardId);
+  //     this._deleteButton.closest('.element').remove();
+  //     this._deletePopup.close();
+  //     this._deletePopupButton.removeEventListener('click', this._deletePicture);
+  //   } catch {
+  //     console.log('Не удалось удалить карточку');
+  //   }
+  // }
 
 }
