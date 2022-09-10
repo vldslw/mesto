@@ -2,7 +2,7 @@ import {api} from '../pages/index.js';
 
 export default class Card {
   //конструктор принимает данные карточки и селектор её template-элемента
-  constructor(data, templateSelector, handleCardClick, popupConfirm, deletePopopSelector, userId) {
+  constructor(data, templateSelector, handleCardClick, confirmationPopup, deletePopopSelector, userId) {
     this._data = data;
     this._text = data.name;
     this._link = data.link;
@@ -12,7 +12,7 @@ export default class Card {
     this._likesNumber = this._likes.length;
     this._cardTemplateSelector = templateSelector;
     this._handleCardClick = handleCardClick;
-    this._popupConfirm = popupConfirm;
+    this._confirmationPopup = confirmationPopup;
     this._deletePopupButton = document.querySelector(deletePopopSelector).querySelector('.popup__submit-button_type_delete');
     this._userId = userId;
   }
@@ -43,8 +43,8 @@ export default class Card {
     this._cardImage.src = this._link;
     this._likeCount.textContent = this._likesNumber;
 
-    if (this._userId != this._cardOwnerId) {
-      this._deleteButton.classList.add('element__delete-button_inactive');
+    if (this._userId === this._cardOwnerId) {
+      this._deleteButton.classList.add('element__delete-button_active');
     }
 
     if (this._likes.some(el => el._id === this._userId)) {
@@ -62,8 +62,9 @@ export default class Card {
     });
 
     this._deleteButton.addEventListener('click', () => {
-      this._popupConfirmOpen();
-    });
+      this._deletePopupOpen();
+    }
+    );
 
     this._cardImage.addEventListener('click', () => {
       this._handleCardClick(this._text, this._link);
@@ -82,8 +83,8 @@ export default class Card {
     }
   }
 
-  _popupConfirmOpen () {
-    this._popupConfirm.open(this._cardId, this._deleteButton);
+  _deletePopupOpen () {
+    this._confirmationPopup.open(this._cardId, this._deleteButton);
   }
 
 }

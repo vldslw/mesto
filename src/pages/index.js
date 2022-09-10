@@ -5,7 +5,7 @@ import FormValidator from '../components/FormValidator.js';
 import Section  from '../components/Section.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
-import PopupDelete from '../components/PopupDelete.js';
+import PopupWithConfirmation from '../components/PopupWithConfirmation.js';
 import UserInfo from '../components/UserInfo.js';
 
 import {
@@ -48,10 +48,40 @@ const turnOnValidation = (config) => {
 
 turnOnValidation(validationConfig);
 
-let userId = api.getUserId().then(res => userId = res);
+let userId = '';
+
+Promise.all([api.getProfileInfo(), api.getInitialCards()])
+  .then(([userData, initialCards]) => {
+    userId = userData._id;
+    console.log(initialCards);
+    profileInfo.setUserInfo(userData);
+    cardsList.renderItems(initialCards);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
+//создать попап с предупреждением об удалении фотографии
+const confirmationPopup = new PopupWithConfirmation(deletePopopSelector, {
+  confirmationHandler: (cardId, button) => {
+    api.deleteCard(cardId)
+    .then(() => {
+      button.closest('.element').remove();
+      confirmationPopup.close();
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  }
+});
+
+// //открыть попап для подтверждения удаления картинки
+// function confirmationPopupOpener (id, button) {
+//   confirmationPopup.open(id, button);
+// }
 
 function createCard(data) {
-  const card = new Card(data, cardTemplateSelector, handleCardClick, popupConfirm, deletePopopSelector, userId);
+  const card = new Card(data, cardTemplateSelector, handleCardClick, confirmationPopup, deletePopopSelector, userId);
   const cardElement = card.generateCard();
   return cardElement
 }
@@ -63,10 +93,6 @@ const cardsList = new Section({
 },
 cardListSection
 );
-
-api.getProfileInfo();
-
-api.getInitialCards();
 
 // создать попап для большой картинки
 const popupWithImage = new PopupWithImage(largePictureSelector);
@@ -88,9 +114,10 @@ const popupAddCard = new PopupWithForm(popupPicture, {
       const cardData = await api.postCard(inputs);
       cardsList.addItem(createCard(cardData));
       popupAddCard.close();
-      popupAddCard.renderLoading(false, 'Создать');
     } catch (err) {
       console.log(`Не удалось создать карточку. Ошибка: ${err}`);
+    } finally {
+      popupAddCard.renderLoading(false, 'Создать');
     }
   },
   formValidators: formValidators
@@ -122,9 +149,10 @@ const profilePopup = new PopupWithForm(popupProfile, {
       const profileData = await api.updateProfileInfo(profileInputValues);
       profileInfo.setUserInfo(profileData);
       profilePopup.close();
-      profilePopup.renderLoading(false, 'Сохранить');
     } catch (err) {
       console.log(`Не удалось изменить информацию профиля. Ошибка: ${err}`);
+    } finally {
+      profilePopup.renderLoading(false, 'Сохранить');
     }
   },
   formValidators: formValidators
@@ -150,9 +178,10 @@ const avatarPopup = new PopupWithForm(popupAvatarSelector, {
       const avatarData = await api.updateAvatar(inputs.link);
       avatarImg.src = avatarData.avatar;
       avatarPopup.close();
-      avatarPopup.renderLoading(false, 'Сохранить');
     } catch (err) {
       console.log(`Не удалось обновить аватар. Ошибка: ${err}`);
+    } finally {
+      avatarPopup.renderLoading(false, 'Сохранить');
     }
   },
   formValidators: formValidators
@@ -164,10 +193,8 @@ function openUpdateAvatarPopup () {
   avatarPopup.open();
 }
 
-//создать попап с предупреждением об удалении фотографии
-const popupConfirm = new PopupDelete(deletePopopSelector);
 //навесить на него слушатели
-popupConfirm.setEventListeners();
+confirmationPopup.setEventListeners();
 
 profileEdit.addEventListener('click', openEditProfilePopup);
 pictureAddButton.addEventListener('click', openAddCardPopup);
