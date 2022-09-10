@@ -14,9 +14,12 @@ import {
   profileAbout,
   profileAvatar,
   profileEdit,
+  avatarImg,
+  avatarEdit,
   popupProfile,
   pictureAddButton,
   popupPicture,
+  popupAvatarSelector,
   largePictureSelector,
   cardTemplateSelector,
   deletePopopSelector,
@@ -166,6 +169,30 @@ function editProfilePopup () {
    profilePopup.open();
 }
 
+export const avatarPopup = new PopupWithForm(popupAvatarSelector, {
+  submitForm: async (evt) => {
+    evt.preventDefault();
+
+    try {
+      const inputs = avatarPopup.getInputValues();
+      console.log(inputs.link);
+      const avatarData = await api.updateAvatar(inputs.link);
+      console.log(avatarData);
+      avatarImg.src = avatarData.avatar;
+      avatarPopup.close();
+    } catch {
+      console.log('Не удалось обновить аватар');
+    }
+  },
+  formValidators: formValidators
+});
+
+avatarPopup.setEventListeners();
+
+function updateAvatarPopup () {
+  avatarPopup.open();
+}
+
 //создать попап с предупреждением об удалении фотографии
 export const deletePopup = new PopupDelete(deletePopopSelector);
 //навесить на него слушатели
@@ -173,3 +200,4 @@ deletePopup.setEventListeners();
 
 profileEdit.addEventListener('click', editProfilePopup);
 pictureAddButton.addEventListener('click', addPicturePopup);
+avatarEdit.addEventListener('click', updateAvatarPopup);

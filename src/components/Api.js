@@ -126,6 +126,23 @@ export default class Api {
     return profileInfo;
   }
 
+  async updateAvatar(url) {
+    const res = await fetch('https://mesto.nomoreparties.co/v1/cohort-49/users/me/avatar', {
+      method: 'PATCH',
+      headers: {
+        authorization: this._token,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        avatar: url
+      })
+    });
+
+    const avatarInfo = await res.json();
+    return avatarInfo;
+  }
+
+
   async postCard(data) {
     const res = await fetch('https://mesto.nomoreparties.co/v1/cohort-49/cards', {
         method: "post",

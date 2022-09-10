@@ -37,11 +37,14 @@ export const profileName = '.profile__name';
 export const profileAbout = '.profile__about';
 export const profileAvatar = '.profile__avatar';
 export const profileEdit = document.querySelector('.profile__edit');
+export const avatarEdit = document.querySelector('.profile__avatar-edit');
+export const avatarImg = document.querySelector('.profile__avatar');
 
 export const popupProfile = '.popup_type_profile';
 
 export const pictureAddButton = document.querySelector('.profile__add');
 export const popupPicture = '.popup_type_picture';
+export const popupAvatarSelector = '.popup_type_avatar';
 
 export const largePictureSelector = '.popup_type_largepicture';
 
