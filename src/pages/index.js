@@ -95,7 +95,6 @@ api.getProfileInfo();
 api.getInitialCards();
 
 
-
 // создать попап для большой картинки
 export const popup = new PopupWithImage(largePictureSelector);
 // навесить на него слушатели
@@ -111,12 +110,13 @@ function handleCardClick(name, link) {
 export const picturePopup = new PopupWithForm(popupPicture, {
   submitForm: async (evt) => {
     evt.preventDefault();
-
+    picturePopup.renderLoading(true, 'Создать');
     try {
       const inputs = picturePopup.getInputValues();
       const cardData = await api.postCard(inputs);
       cardsList.addItem(createCard(cardData));
       picturePopup.close();
+      picturePopup.renderLoading(false, 'Создать');
     } catch {
       console.log('Не удалось создать карточку');
     }
@@ -144,13 +144,14 @@ export const profileInfo = new UserInfo ({
 export const profilePopup = new PopupWithForm(popupProfile, {
   submitForm: async (evt) => {
     evt.preventDefault();
-
+    profilePopup.renderLoading(true, 'Сохранить');
     try {
       const profileInputValues = profilePopup.getInputValues();
       console.log(profileInputValues);
       const profileData = await api.updateProfileInfo(profileInputValues);
       profileInfo.setUserInfo(profileData);
       profilePopup.close();
+      profilePopup.renderLoading(false, 'Сохранить');
     } catch {
 
     }
@@ -172,7 +173,7 @@ function editProfilePopup () {
 export const avatarPopup = new PopupWithForm(popupAvatarSelector, {
   submitForm: async (evt) => {
     evt.preventDefault();
-
+    avatarPopup.renderLoading(true, 'Сохранить');
     try {
       const inputs = avatarPopup.getInputValues();
       console.log(inputs.link);
@@ -180,6 +181,7 @@ export const avatarPopup = new PopupWithForm(popupAvatarSelector, {
       console.log(avatarData);
       avatarImg.src = avatarData.avatar;
       avatarPopup.close();
+      avatarPopup.renderLoading(false, 'Сохранить');
     } catch {
       console.log('Не удалось обновить аватар');
     }

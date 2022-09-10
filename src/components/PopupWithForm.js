@@ -37,4 +37,13 @@ export default class PopupWithForm extends Popup {
     this._formValidators[this._popupForm.getAttribute('name')].resetValidation();
   }
 
+  renderLoading (isLoading, defaultText) {
+    this._defaultText = defaultText;
+    if (isLoading) {
+      this._popup.querySelector('.popup__submit-button').textContent = 'Сохранение...';
+    } else {
+      this._popup.querySelector('.popup__submit-button').textContent = this._defaultText;
+    }
+  }
+
 }
