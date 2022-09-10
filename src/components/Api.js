@@ -10,10 +10,11 @@ export default class Api {
   }) {
     this._baseUrl = baseUrl;
     this._token = headers['authorization'];
+    this._contentType = headers['Content-Type'];
   }
 
   async deleteCard(id) {
-    const res = await fetch(`https://mesto.nomoreparties.co/v1/cohort-49/cards/${id}`, {
+    const res = await fetch(`${this._baseUrl}/cards/${id}`, {
         method: "delete",
         headers: {
           authorization: this._token
@@ -25,7 +26,7 @@ export default class Api {
   }
 
   async getUserId() {
-    const res = await fetch('https://mesto.nomoreparties.co/v1/cohort-49/users/me', {
+    const res = await fetch(`${this._baseUrl}/users/me`, {
       headers: {
         authorization: this._token
       }
@@ -33,30 +34,31 @@ export default class Api {
 
     const data = await res.json();
     const userId = data._id;
-    console.log(userId);
     return userId;
   }
 
   getProfileInfo() {
-    fetch('https://mesto.nomoreparties.co/v1/cohort-49/users/me', {
+    fetch(`${this._baseUrl}/users/me`, {
       headers: {
         authorization: this._token
       }
     })
     .then((res) => {
-      return res.json();
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Ошибка: ${res.status}`);
     })
     .then((data) => {
       profileInfo.setUserInfo(data);
-      // profileInfo.setUserId(data._id);
     })
-    .catch(() => {
-      console.log('Не удалось загрузить информацию профиля');
+    .catch((err) => {
+      console.log(`Не удалось загрузить информацию профиля. Ошибка: ${err}`);
     })
   }
 
   async likePicture(id) {
-    const res = await fetch(`https://mesto.nomoreparties.co/v1/cohort-49/cards/${id}/likes`, {
+    const res = await fetch(`${this._baseUrl}/cards/${id}/likes`, {
       method: 'PUT',
       headers: {
         authorization: this._token
@@ -64,17 +66,17 @@ export default class Api {
     });
     try {
       const data = await res.json();
-      console.log(data);
       return data;
 
-    } catch {
-      console.log('Не удалось лайкнуть карточку');
+    } catch (err) {
+      console.log(`Не удалось лайкнуть карточку. Ошибка: ${err}`);
+
     }
 
   }
 
   async deleteLike(id) {
-    const res = await fetch(`https://mesto.nomoreparties.co/v1/cohort-49/cards/${id}/likes`, {
+    const res = await fetch(`${this._baseUrl}/cards/${id}/likes`, {
       method: 'DELETE',
       headers: {
         authorization: this._token
@@ -82,39 +84,40 @@ export default class Api {
     });
     try {
       const data = await res.json();
-      console.log(data);
       return data;
 
-    } catch {
-      console.log('Не удалось удалить лайк');
+    } catch (err) {
+      console.log(`Не удалось удалить лайк. Ошибка: ${err}`);
     }
 
   }
 
   getInitialCards() {
-    fetch('https://mesto.nomoreparties.co/v1/cohort-49/cards', {
+    fetch(`${this._baseUrl}/cards`, {
       headers: {
         authorization: this._token
       }
     })
     .then((res) => {
-      return res.json();
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Ошибка: ${res.status}`);
     })
     .then((data) => {
-      console.log(data);
       cardsList.renderItems(data);
     })
-    .catch(() => {
-      console.log('Не удалось загрузить карточки')
+    .catch((err) => {
+      console.log(`Не удалось загрузить карточки. Ошибка: ${err}`)
     })
   }
 
   async updateProfileInfo(data) {
-    const res = await fetch('https://mesto.nomoreparties.co/v1/cohort-49/users/me', {
+    const res = await fetch(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
       headers: {
         authorization: this._token,
-        'Content-Type': 'application/json'
+        'Content-Type': this._contentType
       },
       body: JSON.stringify({
         name: data.name,
@@ -127,11 +130,11 @@ export default class Api {
   }
 
   async updateAvatar(url) {
-    const res = await fetch('https://mesto.nomoreparties.co/v1/cohort-49/users/me/avatar', {
+    const res = await fetch(`${this._baseUrl}/users/me/avatar`, {
       method: 'PATCH',
       headers: {
         authorization: this._token,
-        'Content-Type': 'application/json'
+        'Content-Type': this._contentType
       },
       body: JSON.stringify({
         avatar: url
@@ -144,11 +147,11 @@ export default class Api {
 
 
   async postCard(data) {
-    const res = await fetch('https://mesto.nomoreparties.co/v1/cohort-49/cards', {
+    const res = await fetch(`${this._baseUrl}/cards`, {
         method: "post",
         headers: {
           authorization: this._token,
-          'Content-Type': 'application/json; charset=utf-8'
+          'Content-Type': this._contentType
         },
         body: JSON.stringify({
           name: data.title,

@@ -3,7 +3,6 @@ import Api  from '../components/Api.js';
 import Card  from '../components/Card.js';
 import FormValidator from '../components/FormValidator.js';
 import Section  from '../components/Section.js';
-import Popup from '../components/Popup.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import PopupDelete from '../components/PopupDelete.js';
@@ -24,7 +23,6 @@ import {
   cardTemplateSelector,
   deletePopopSelector,
   cardListSection,
-  // thisUserId,
   validationConfig,
   formValidators
 } from '../utils/constants.js';
@@ -66,34 +64,9 @@ export const cardsList = new Section({
 cardListSection
 );
 
-
-
-// function getUserId() {
-//   fetch('https://mesto.nomoreparties.co/v1/cohort-49/users/me', {
-//     headers: {
-//       authorization: '0709850e-2cbd-4a8e-8f4e-5a01f045740a'
-//     }
-//   })
-//   .then((res) => {
-//     return res.json();
-//   })
-//   .then((data) => {
-//     const userId = data._id;
-//     return userId;
-//   })
-//   .catch(() => {
-//     console.log('Не удалось загрузить id пользователя');
-//   })
-// }
-
-
-
 api.getProfileInfo();
 
-
-
 api.getInitialCards();
-
 
 // создать попап для большой картинки
 export const popup = new PopupWithImage(largePictureSelector);
@@ -104,7 +77,6 @@ popup.setEventListeners();
 function handleCardClick(name, link) {
   popup.open(name, link);
 }
-
 
 // создать попап для добавления фотографии
 export const picturePopup = new PopupWithForm(popupPicture, {
@@ -117,8 +89,8 @@ export const picturePopup = new PopupWithForm(popupPicture, {
       cardsList.addItem(createCard(cardData));
       picturePopup.close();
       picturePopup.renderLoading(false, 'Создать');
-    } catch {
-      console.log('Не удалось создать карточку');
+    } catch (err) {
+      console.log(`Не удалось создать карточку. Ошибка: ${err}`);
     }
   },
   formValidators: formValidators
@@ -147,13 +119,12 @@ export const profilePopup = new PopupWithForm(popupProfile, {
     profilePopup.renderLoading(true, 'Сохранить');
     try {
       const profileInputValues = profilePopup.getInputValues();
-      console.log(profileInputValues);
       const profileData = await api.updateProfileInfo(profileInputValues);
       profileInfo.setUserInfo(profileData);
       profilePopup.close();
       profilePopup.renderLoading(false, 'Сохранить');
-    } catch {
-
+    } catch (err) {
+      console.log(`Не удалось изменить информацию профиля. Ошибка: ${err}`);
     }
   },
   formValidators: formValidators
@@ -176,14 +147,12 @@ export const avatarPopup = new PopupWithForm(popupAvatarSelector, {
     avatarPopup.renderLoading(true, 'Сохранить');
     try {
       const inputs = avatarPopup.getInputValues();
-      console.log(inputs.link);
       const avatarData = await api.updateAvatar(inputs.link);
-      console.log(avatarData);
       avatarImg.src = avatarData.avatar;
       avatarPopup.close();
       avatarPopup.renderLoading(false, 'Сохранить');
-    } catch {
-      console.log('Не удалось обновить аватар');
+    } catch (err) {
+      console.log(`Не удалось обновить аватар. Ошибка: ${err}`);
     }
   },
   formValidators: formValidators

@@ -3,11 +3,13 @@ import {api} from '../pages/index.js';
 export default class Card {
   //конструктор принимает данные карточки и селектор её template-элемента
   constructor(data, templateSelector, handleCardClick, deletePopup, deletePopopSelector, userId) {
+    this._data = data;
     this._text = data.name;
     this._link = data.link;
     this._cardId = data._id;
     this._cardOwnerId = data.owner._id;
-    this._likesNumber = data.likes.length;
+    this._likes = data.likes;
+    this._likesNumber = this._likes.length;
     this._cardTemplateSelector = templateSelector;
     this._handleCardClick = handleCardClick;
     this._deletePopup = deletePopup;
@@ -41,12 +43,14 @@ export default class Card {
     this._cardImage.src = this._link;
     this._likeCount.textContent = this._likesNumber;
 
-    console.log(this._userId);
-    console.log(this._cardOwnerId);
     if (this._userId != this._cardOwnerId) {
-      console.log('Карточка не моя');
       this._deleteButton.classList.add('element__delete-button_inactive');
     }
+
+    if (this._likes.some(el => el._id === this._userId)) {
+      this._likeButton.classList.add('element__like_active');
+    }
+
 
     return this._cardElement;
   }
@@ -66,16 +70,13 @@ export default class Card {
     });
   }
 
-  //приватные методы для каждого обработчика
   async _likePicture() {
     if (this._likeButton.classList.contains('element__like_active')) {
       this._data = await api.deleteLike(this._cardId);
-      console.log(this._data.likes.length);
       this._likeButton.classList.toggle('element__like_active');
       this._likeCount.textContent = this._data.likes.length;
     } else {
       this._data = await api.likePicture(this._cardId);
-      console.log(this._data.likes.length);
       this._likeButton.classList.toggle('element__like_active');
       this._likeCount.textContent = this._data.likes.length;
     }
@@ -83,20 +84,6 @@ export default class Card {
 
   _deletePopupOpen () {
     this._deletePopup.open(this._cardId, this._deleteButton);
-    // this._deletePopupButton.addEventListener('click', this._deletePicture);
-    // this._deletePopup.setDeleteListener(this._cardId);
   }
-
-  // _deletePicture = async () => {
-  //   try {
-  //     console.log(this._cardId);
-  //     await deleteCard(this._cardId);
-  //     this._deleteButton.closest('.element').remove();
-  //     this._deletePopup.close();
-  //     this._deletePopupButton.removeEventListener('click', this._deletePicture);
-  //   } catch {
-  //     console.log('Не удалось удалить карточку');
-  //   }
-  // }
 
 }
