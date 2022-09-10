@@ -51,12 +51,12 @@ turnOnValidation(validationConfig);
 let userId = api.getUserId().then(res => userId = res);
 
 function createCard(data) {
-  const card = new Card(data, cardTemplateSelector, handleCardClick, deletePopup, deletePopopSelector, userId);
+  const card = new Card(data, cardTemplateSelector, handleCardClick, popupConfirm, deletePopopSelector, userId);
   const cardElement = card.generateCard();
   return cardElement
 }
 
-export const cardsList = new Section({
+const cardsList = new Section({
   renderer: (item) => {
     cardsList.addItem(createCard(item));
   }
@@ -69,26 +69,26 @@ api.getProfileInfo();
 api.getInitialCards();
 
 // создать попап для большой картинки
-export const popup = new PopupWithImage(largePictureSelector);
+const popupWithImage = new PopupWithImage(largePictureSelector);
 // навесить на него слушатели
-popup.setEventListeners();
+popupWithImage.setEventListeners();
 
 // открыть большую картинку
 function handleCardClick(name, link) {
-  popup.open(name, link);
+  popupWithImage.open(name, link);
 }
 
 // создать попап для добавления фотографии
-export const picturePopup = new PopupWithForm(popupPicture, {
+const popupAddCard = new PopupWithForm(popupPicture, {
   submitForm: async (evt) => {
     evt.preventDefault();
-    picturePopup.renderLoading(true, 'Создать');
+    popupAddCard.renderLoading(true, 'Создать');
     try {
-      const inputs = picturePopup.getInputValues();
+      const inputs = popupAddCard.getInputValues();
       const cardData = await api.postCard(inputs);
       cardsList.addItem(createCard(cardData));
-      picturePopup.close();
-      picturePopup.renderLoading(false, 'Создать');
+      popupAddCard.close();
+      popupAddCard.renderLoading(false, 'Создать');
     } catch (err) {
       console.log(`Не удалось создать карточку. Ошибка: ${err}`);
     }
@@ -97,15 +97,15 @@ export const picturePopup = new PopupWithForm(popupPicture, {
 });
 
 // навесить на него слушатели
-picturePopup.setEventListeners();
+popupAddCard.setEventListeners();
 
 // открыть попап для добавления фотографии
-function addPicturePopup () {
-  picturePopup.open();
+function openAddCardPopup () {
+  popupAddCard.open();
 }
 
 // создать класс управления информацией о пользователе
-export const profileInfo = new UserInfo ({
+const profileInfo = new UserInfo ({
   profileNameSelector: profileName,
   profileAboutSelector: profileAbout,
   profileAvatarSelector: profileAvatar
@@ -113,7 +113,7 @@ export const profileInfo = new UserInfo ({
 });
 
 // создать попап для редактирования профиля
-export const profilePopup = new PopupWithForm(popupProfile, {
+const profilePopup = new PopupWithForm(popupProfile, {
   submitForm: async (evt) => {
     evt.preventDefault();
     profilePopup.renderLoading(true, 'Сохранить');
@@ -133,7 +133,7 @@ export const profilePopup = new PopupWithForm(popupProfile, {
 profilePopup.setEventListeners();
 
 // открыть попап для редактирования профиля
-function editProfilePopup () {
+function openEditProfilePopup () {
   //заполнить поля данными из профиля
   const userInfo = profileInfo.getUserInfo();
   profilePopup.setInputValues(userInfo);
@@ -141,7 +141,7 @@ function editProfilePopup () {
    profilePopup.open();
 }
 
-export const avatarPopup = new PopupWithForm(popupAvatarSelector, {
+const avatarPopup = new PopupWithForm(popupAvatarSelector, {
   submitForm: async (evt) => {
     evt.preventDefault();
     avatarPopup.renderLoading(true, 'Сохранить');
@@ -160,15 +160,15 @@ export const avatarPopup = new PopupWithForm(popupAvatarSelector, {
 
 avatarPopup.setEventListeners();
 
-function updateAvatarPopup () {
+function openUpdateAvatarPopup () {
   avatarPopup.open();
 }
 
 //создать попап с предупреждением об удалении фотографии
-export const deletePopup = new PopupDelete(deletePopopSelector);
+const popupConfirm = new PopupDelete(deletePopopSelector);
 //навесить на него слушатели
-deletePopup.setEventListeners();
+popupConfirm.setEventListeners();
 
-profileEdit.addEventListener('click', editProfilePopup);
-pictureAddButton.addEventListener('click', addPicturePopup);
-avatarEdit.addEventListener('click', updateAvatarPopup);
+profileEdit.addEventListener('click', openEditProfilePopup);
+pictureAddButton.addEventListener('click', openAddCardPopup);
+avatarEdit.addEventListener('click', openUpdateAvatarPopup);
