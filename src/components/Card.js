@@ -1,4 +1,4 @@
-import deleteCard from '../pages/index.js';
+import {api} from '../pages/index.js';
 
 export default class Card {
   //конструктор принимает данные карточки и селектор её template-элемента
@@ -67,8 +67,18 @@ export default class Card {
   }
 
   //приватные методы для каждого обработчика
-  _likePicture() {
-    this._likeButton.classList.toggle('element__like_active');
+  async _likePicture() {
+    if (this._likeButton.classList.contains('element__like_active')) {
+      this._data = await api.deleteLike(this._cardId);
+      console.log(this._data.likes.length);
+      this._likeButton.classList.toggle('element__like_active');
+      this._likeCount.textContent = this._data.likes.length;
+    } else {
+      this._data = await api.likePicture(this._cardId);
+      console.log(this._data.likes.length);
+      this._likeButton.classList.toggle('element__like_active');
+      this._likeCount.textContent = this._data.likes.length;
+    }
   }
 
   _deletePopupOpen () {

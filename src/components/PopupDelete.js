@@ -1,5 +1,5 @@
 import Popup from './Popup.js';
-import deleteCard from '../pages/index.js';
+import {api} from '../pages/index.js';
 
 export default class PopupDelete extends Popup {
   constructor (selector) {
@@ -15,7 +15,7 @@ export default class PopupDelete extends Popup {
     this._deleteHandler = async () => {
       try {
         console.log(this._cardId);
-        await deleteCard(this._cardId);
+        await api.deleteCard(this._cardId);
         this._deleteButton.closest('.element').remove();
         this.close();
         this._submitButton.removeEventListener('click', this._deleteHandler);

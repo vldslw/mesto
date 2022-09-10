@@ -26,6 +26,14 @@ import {
   formValidators
 } from '../utils/constants.js';
 
+export const api = new Api({
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-49',
+  headers: {
+    authorization: '0709850e-2cbd-4a8e-8f4e-5a01f045740a',
+    'Content-Type': 'application/json'
+  }
+});
+
 // функция включения валидации
 const turnOnValidation = (config) => {
   const formList = Array.from(document.querySelectorAll(config.formSelector));
@@ -39,7 +47,7 @@ const turnOnValidation = (config) => {
 
 turnOnValidation(validationConfig);
 
-let userId = getUserId().then(res => userId = res);
+let userId = api.getUserId().then(res => userId = res);
 
 function createCard(data) {
   const card = new Card(data, cardTemplateSelector, handleCardClick, deletePopup, deletePopopSelector, userId);
@@ -47,27 +55,7 @@ function createCard(data) {
   return cardElement
 }
 
-export default async function deleteCard(id) {
-  const res = await fetch(`https://mesto.nomoreparties.co/v1/cohort-49/cards/${id}`, {
-      method: "delete",
-      headers: {
-        authorization: '0709850e-2cbd-4a8e-8f4e-5a01f045740a',
-      }
-  });
-
-  const data = await res.json();
-  return data;
-}
-
-// const api = new Api({
-//   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-49',
-//   headers: {
-//     authorization: '0709850e-2cbd-4a8e-8f4e-5a01f045740a',
-//     'Content-Type': 'application/json'
-//   }
-// });
-
-const cardsList = new Section({
+export const cardsList = new Section({
   renderer: (item) => {
     cardsList.addItem(createCard(item));
   }
@@ -75,18 +63,7 @@ const cardsList = new Section({
 cardListSection
 );
 
-async function getUserId() {
-  const res = await fetch('https://mesto.nomoreparties.co/v1/cohort-49/users/me', {
-    headers: {
-      authorization: '0709850e-2cbd-4a8e-8f4e-5a01f045740a'
-    }
-  });
 
-  const data = await res.json();
-  const userId = data._id;
-  console.log(userId);
-  return userId;
-}
 
 // function getUserId() {
 //   fetch('https://mesto.nomoreparties.co/v1/cohort-49/users/me', {
@@ -106,65 +83,18 @@ async function getUserId() {
 //   })
 // }
 
-function getProfileInfo() {
-  fetch('https://mesto.nomoreparties.co/v1/cohort-49/users/me', {
-    headers: {
-      authorization: '0709850e-2cbd-4a8e-8f4e-5a01f045740a'
-    }
-  })
-  .then((res) => {
-    return res.json();
-  })
-  .then((data) => {
-    profileInfo.setUserInfo(data);
-    // profileInfo.setUserId(data._id);
-  })
-  .catch(() => {
-    console.log('Не удалось загрузить информацию профиля');
-  })
-}
 
-getProfileInfo();
 
-function getInitialCards() {
-  fetch('https://mesto.nomoreparties.co/v1/cohort-49/cards', {
-    headers: {
-      authorization: '0709850e-2cbd-4a8e-8f4e-5a01f045740a'
-    }
-  })
-  .then((res) => {
-    return res.json();
-  })
-  .then((data) => {
-    console.log(data);
-    cardsList.renderItems(data);
-  })
-  .catch(() => {
-    console.log('Не удалось загрузить карточки')
-  })
-}
+api.getProfileInfo();
 
-getInitialCards();
 
-async function updateProfileInfo(data) {
-  const res = await fetch('https://mesto.nomoreparties.co/v1/cohort-49/users/me', {
-    method: 'PATCH',
-    headers: {
-      authorization: '0709850e-2cbd-4a8e-8f4e-5a01f045740a',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      name: data.name,
-      about: data.about
-    })
-  });
 
-  const profileInfo = await res.json();
-  return profileInfo;
-}
+api.getInitialCards();
+
+
 
 // создать попап для большой картинки
-const popup = new PopupWithImage(largePictureSelector);
+export const popup = new PopupWithImage(largePictureSelector);
 // навесить на него слушатели
 popup.setEventListeners();
 
@@ -173,31 +103,15 @@ function handleCardClick(name, link) {
   popup.open(name, link);
 }
 
-async function postCard(data) {
-  const res = await fetch('https://mesto.nomoreparties.co/v1/cohort-49/cards', {
-      method: "post",
-      headers: {
-        authorization: '0709850e-2cbd-4a8e-8f4e-5a01f045740a',
-        'Content-Type': 'application/json; charset=utf-8'
-      },
-      body: JSON.stringify({
-        name: data.title,
-        link: data.link
-      })
-  });
-
-  const cardData = await res.json();
-  return cardData;
-}
 
 // создать попап для добавления фотографии
-const picturePopup = new PopupWithForm(popupPicture, {
+export const picturePopup = new PopupWithForm(popupPicture, {
   submitForm: async (evt) => {
     evt.preventDefault();
 
     try {
       const inputs = picturePopup.getInputValues();
-      const cardData = await postCard(inputs);
+      const cardData = await api.postCard(inputs);
       cardsList.addItem(createCard(cardData));
       picturePopup.close();
     } catch {
@@ -216,7 +130,7 @@ function addPicturePopup () {
 }
 
 // создать класс управления информацией о пользователе
-const profileInfo = new UserInfo ({
+export const profileInfo = new UserInfo ({
   profileNameSelector: profileName,
   profileAboutSelector: profileAbout,
   profileAvatarSelector: profileAvatar
@@ -224,14 +138,14 @@ const profileInfo = new UserInfo ({
 });
 
 // создать попап для редактирования профиля
-const profilePopup = new PopupWithForm(popupProfile, {
+export const profilePopup = new PopupWithForm(popupProfile, {
   submitForm: async (evt) => {
     evt.preventDefault();
 
     try {
       const profileInputValues = profilePopup.getInputValues();
       console.log(profileInputValues);
-      const profileData = await updateProfileInfo(profileInputValues);
+      const profileData = await api.updateProfileInfo(profileInputValues);
       profileInfo.setUserInfo(profileData);
       profilePopup.close();
     } catch {
@@ -253,7 +167,7 @@ function editProfilePopup () {
 }
 
 //создать попап с предупреждением об удалении фотографии
-const deletePopup = new PopupDelete(deletePopopSelector);
+export const deletePopup = new PopupDelete(deletePopopSelector);
 //навесить на него слушатели
 deletePopup.setEventListeners();
 
