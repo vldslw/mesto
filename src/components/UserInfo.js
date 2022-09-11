@@ -5,7 +5,6 @@ export default class UserInfo {
     this._profileAvatar = document.querySelector(profileAvatarSelector);
   }
 
-  //здесь пока нет аватара (!)
   getUserInfo () {
     const profileInfo = {};
     profileInfo.name = this._profileName.textContent;

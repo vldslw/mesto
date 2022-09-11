@@ -53,7 +53,6 @@ let userId = '';
 Promise.all([api.getProfileInfo(), api.getInitialCards()])
   .then(([userData, initialCards]) => {
     userId = userData._id;
-    console.log(initialCards);
     profileInfo.setUserInfo(userData);
     cardsList.renderItems(initialCards);
   })
@@ -74,6 +73,9 @@ const confirmationPopup = new PopupWithConfirmation(deletePopopSelector, {
     })
   }
 });
+
+//навесить на него слушатели
+confirmationPopup.setEventListeners();
 
 
 function createCard(data) {
@@ -138,7 +140,6 @@ const popupAddCard = new PopupWithForm(popupPicture, {
     evt.preventDefault();
     popupAddCard.renderLoading(true, 'Создать');
     try {
-      // const inputs = popupAddCard._getInputValues();
       const cardData = await api.postCard(inputs);
       cardsList.addItem(createCard(cardData));
       popupAddCard.close();
@@ -164,7 +165,6 @@ const profileInfo = new UserInfo ({
   profileNameSelector: profileName,
   profileAboutSelector: profileAbout,
   profileAvatarSelector: profileAvatar
-  // thisUserId: thisUserId
 });
 
 // создать попап для редактирования профиля
@@ -173,7 +173,6 @@ const profilePopup = new PopupWithForm(popupProfile, {
     evt.preventDefault();
     profilePopup.renderLoading(true, 'Сохранить');
     try {
-      // const profileInputValues = profilePopup._getInputValues();
       const profileData = await api.updateProfileInfo(inputs);
       profileInfo.setUserInfo(profileData);
       profilePopup.close();
@@ -202,7 +201,6 @@ const avatarPopup = new PopupWithForm(popupAvatarSelector, {
     evt.preventDefault();
     avatarPopup.renderLoading(true, 'Сохранить');
     try {
-      // const inputs = avatarPopup._getInputValues();
       const avatarData = await api.updateAvatar(inputs.link);
       avatarImg.src = avatarData.avatar;
       avatarPopup.close();
@@ -220,9 +218,6 @@ avatarPopup.setEventListeners();
 function openUpdateAvatarPopup () {
   avatarPopup.open();
 }
-
-//навесить на него слушатели
-confirmationPopup.setEventListeners();
 
 profileEdit.addEventListener('click', openEditProfilePopup);
 pictureAddButton.addEventListener('click', openAddCardPopup);
