@@ -1,6 +1,6 @@
 export default class Card {
   //конструктор принимает данные карточки и селектор её template-элемента
-  constructor(data, templateSelector, handleCardClick, confirmationPopup, deletePopopSelector, userId, {pictureLikeHandler, pictureDeleteLikeHandler}) {
+  constructor(data, templateSelector, handleCardClick, deletePopopSelector, userId, {pictureLikeHandler, pictureDeleteLikeHandler}, handleCardDeleteClick) {
     this._data = data;
     this._text = data.name;
     this._link = data.link;
@@ -10,11 +10,11 @@ export default class Card {
     this._likesNumber = this._likes.length;
     this._cardTemplateSelector = templateSelector;
     this._handleCardClick = handleCardClick;
-    this._confirmationPopup = confirmationPopup;
     this._deletePopupButton = document.querySelector(deletePopopSelector).querySelector('.popup__submit-button_type_delete');
     this._userId = userId;
     this._pictureLikeHandler = pictureLikeHandler;
     this._pictureDeleteLikeHandler = pictureDeleteLikeHandler;
+    this._handleCardDeleteClick = handleCardDeleteClick;
   }
 
   //приватный метод, который работает с разметкой
@@ -63,8 +63,7 @@ export default class Card {
     });
 
     this._deleteButton.addEventListener('click', () => {
-      this._deletePopupOpen();
-      // console.log(this);
+      this._handleCardDeleteClick(this._cardId, this._deleteButton);
     }
     );
 
@@ -83,8 +82,8 @@ export default class Card {
     }
   }
 
-  _deletePopupOpen () {
-    this._confirmationPopup.open(this._cardId, this._deleteButton);
-  }
+  // _deletePopupOpen () {
+  //   this._confirmationPopup.open(this._cardId, this._deleteButton);
+  // }
 
 }

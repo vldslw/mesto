@@ -63,8 +63,8 @@ Promise.all([api.getProfileInfo(), api.getInitialCards()])
 
 //создать попап с предупреждением об удалении фотографии
 const confirmationPopup = new PopupWithConfirmation(deletePopopSelector, {
-  confirmationHandler: (cardId, button) => {
-    api.deleteCard(cardId)
+  confirmationHandler: (id, button) => {
+    api.deleteCard(id)
     .then(() => {
       button.closest('.element').remove();
       confirmationPopup.close();
@@ -83,7 +83,7 @@ const confirmationPopup = new PopupWithConfirmation(deletePopopSelector, {
 
 
 function createCard(data) {
-  const card = new Card(data, cardTemplateSelector, handleCardClick, confirmationPopup, deletePopopSelector, userId, {
+  const card = new Card(data, cardTemplateSelector, handleCardClick, deletePopopSelector, userId, {
     pictureLikeHandler: (id, element) => {
       api.likePicture(id)
       .then((res) => {
@@ -109,12 +109,15 @@ function createCard(data) {
       })
     }
 
-  });
+  },
+  handleCardDeleteClick);
   const cardElement = card.generateCard();
   return cardElement
 }
 
-
+const handleCardDeleteClick = (id, button) => {
+  confirmationPopup.open(id, button);
+}
 
 
 // async (id, element) => {
