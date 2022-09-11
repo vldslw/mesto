@@ -15,12 +15,7 @@ export default class Api {
           authorization: this._token
         }
     })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
+    .then(this._checkResStatus);
   }
 
   getProfileInfo() {
@@ -29,12 +24,7 @@ export default class Api {
         authorization: this._token
       }
     })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
+    .then(this._checkResStatus);
   }
 
   likePicture(id) {
@@ -44,12 +34,7 @@ export default class Api {
         authorization: this._token
       }
     })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
+    .then(this._checkResStatus);
 
   }
 
@@ -60,12 +45,7 @@ export default class Api {
         authorization: this._token
       }
     })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
+    .then(this._checkResStatus);
 
   }
 
@@ -75,12 +55,7 @@ export default class Api {
         authorization: this._token
       }
     })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
+    .then(this._checkResStatus);
   }
 
   updateProfileInfo(data) {
@@ -95,12 +70,7 @@ export default class Api {
         about: data.about
       })
     })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
+    .then(this._checkResStatus);
   }
 
   updateAvatar(url) {
@@ -114,12 +84,7 @@ export default class Api {
         avatar: url
       })
     })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
+    .then(this._checkResStatus);
 
   }
 
@@ -136,16 +101,11 @@ export default class Api {
           link: data.link
         })
     })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
+    .then(this._checkResStatus);
 
   }
 
-  _checkResStatus () {
+  _checkResStatus (res) {
     if (res.ok) {
       return res.json();
     }

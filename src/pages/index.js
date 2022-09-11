@@ -75,12 +75,6 @@ const confirmationPopup = new PopupWithConfirmation(deletePopopSelector, {
   }
 });
 
-// //открыть попап для подтверждения удаления картинки
-// function confirmationPopupOpener (id, button) {
-//   confirmationPopup.open(id, button);
-// }
-
-
 
 function createCard(data) {
   const card = new Card(data, cardTemplateSelector, handleCardClick, deletePopopSelector, userId, {
@@ -118,29 +112,6 @@ function createCard(data) {
 const handleCardDeleteClick = (id, button) => {
   confirmationPopup.open(id, button);
 }
-
-
-// async (id, element) => {
-//   try {
-//     const res = await api.likePicture(id);
-//     console.log(res);
-//     console.log(res.likes.length);
-//     element.querySelector('.element__like-count').textContent = res.likes.length;
-//   } catch (err) {
-//     console.log(err);
-//   }
-// }
-
-// async (id, element) => {
-//   try {
-//     const res = await api.deleteLike(id);
-//     console.log(res);
-//     console.log(res.likes.length);
-//     element.querySelector('.element__like-count').textContent = res.likes.length;
-//   } catch (err) {
-//     console.log(err);
-//   }
-// }
 
 
 const cardsList = new Section({

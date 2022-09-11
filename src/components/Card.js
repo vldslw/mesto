@@ -59,7 +59,6 @@ export default class Card {
   _setCardEventListeners = () => {
     this._likeButton.addEventListener ('click', () => {
       this._likePicture();
-      // console.log(this);
     });
 
     this._deleteButton.addEventListener('click', () => {
@@ -81,9 +80,5 @@ export default class Card {
       this._pictureLikeHandler(this._cardId, this._cardElement);
     }
   }
-
-  // _deletePopupOpen () {
-  //   this._confirmationPopup.open(this._cardId, this._deleteButton);
-  // }
 
 }
