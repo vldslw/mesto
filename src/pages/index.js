@@ -80,11 +80,65 @@ const confirmationPopup = new PopupWithConfirmation(deletePopopSelector, {
 //   confirmationPopup.open(id, button);
 // }
 
+
+
 function createCard(data) {
-  const card = new Card(data, cardTemplateSelector, handleCardClick, confirmationPopup, deletePopopSelector, userId);
+  const card = new Card(data, cardTemplateSelector, handleCardClick, confirmationPopup, deletePopopSelector, userId, {
+    pictureLikeHandler: (id, element) => {
+      api.likePicture(id)
+      .then((res) => {
+        return res.likes.length;
+      })
+      .then((data) => {
+        element.querySelector('.element__like-count').textContent = data;
+      })
+      .catch((err) => {
+      console.log(err);
+      })
+    },
+    pictureDeleteLikeHandler: (id, element) => {
+      api.deleteLike(id)
+      .then((res) => {
+        return res.likes.length;
+      })
+      .then((data) => {
+        element.querySelector('.element__like-count').textContent = data;
+      })
+      .catch((err) => {
+      console.log(err);
+      })
+    }
+
+  });
   const cardElement = card.generateCard();
   return cardElement
 }
+
+
+
+
+// async (id, element) => {
+//   try {
+//     const res = await api.likePicture(id);
+//     console.log(res);
+//     console.log(res.likes.length);
+//     element.querySelector('.element__like-count').textContent = res.likes.length;
+//   } catch (err) {
+//     console.log(err);
+//   }
+// }
+
+// async (id, element) => {
+//   try {
+//     const res = await api.deleteLike(id);
+//     console.log(res);
+//     console.log(res.likes.length);
+//     element.querySelector('.element__like-count').textContent = res.likes.length;
+//   } catch (err) {
+//     console.log(err);
+//   }
+// }
+
 
 const cardsList = new Section({
   renderer: (item) => {
@@ -106,11 +160,11 @@ function handleCardClick(name, link) {
 
 // создать попап для добавления фотографии
 const popupAddCard = new PopupWithForm(popupPicture, {
-  submitForm: async (evt) => {
+  submitForm: async (evt, inputs) => {
     evt.preventDefault();
     popupAddCard.renderLoading(true, 'Создать');
     try {
-      const inputs = popupAddCard.getInputValues();
+      // const inputs = popupAddCard._getInputValues();
       const cardData = await api.postCard(inputs);
       cardsList.addItem(createCard(cardData));
       popupAddCard.close();
@@ -141,12 +195,12 @@ const profileInfo = new UserInfo ({
 
 // создать попап для редактирования профиля
 const profilePopup = new PopupWithForm(popupProfile, {
-  submitForm: async (evt) => {
+  submitForm: async (evt, inputs) => {
     evt.preventDefault();
     profilePopup.renderLoading(true, 'Сохранить');
     try {
-      const profileInputValues = profilePopup.getInputValues();
-      const profileData = await api.updateProfileInfo(profileInputValues);
+      // const profileInputValues = profilePopup._getInputValues();
+      const profileData = await api.updateProfileInfo(inputs);
       profileInfo.setUserInfo(profileData);
       profilePopup.close();
     } catch (err) {
@@ -170,11 +224,11 @@ function openEditProfilePopup () {
 }
 
 const avatarPopup = new PopupWithForm(popupAvatarSelector, {
-  submitForm: async (evt) => {
+  submitForm: async (evt, inputs) => {
     evt.preventDefault();
     avatarPopup.renderLoading(true, 'Сохранить');
     try {
-      const inputs = avatarPopup.getInputValues();
+      // const inputs = avatarPopup._getInputValues();
       const avatarData = await api.updateAvatar(inputs.link);
       avatarImg.src = avatarData.avatar;
       avatarPopup.close();

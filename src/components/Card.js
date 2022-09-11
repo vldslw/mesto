@@ -1,8 +1,6 @@
-import {api} from '../pages/index.js';
-
 export default class Card {
   //конструктор принимает данные карточки и селектор её template-элемента
-  constructor(data, templateSelector, handleCardClick, confirmationPopup, deletePopopSelector, userId) {
+  constructor(data, templateSelector, handleCardClick, confirmationPopup, deletePopopSelector, userId, {pictureLikeHandler, pictureDeleteLikeHandler}) {
     this._data = data;
     this._text = data.name;
     this._link = data.link;
@@ -15,6 +13,8 @@ export default class Card {
     this._confirmationPopup = confirmationPopup;
     this._deletePopupButton = document.querySelector(deletePopopSelector).querySelector('.popup__submit-button_type_delete');
     this._userId = userId;
+    this._pictureLikeHandler = pictureLikeHandler;
+    this._pictureDeleteLikeHandler = pictureDeleteLikeHandler;
   }
 
   //приватный метод, который работает с разметкой
@@ -59,10 +59,12 @@ export default class Card {
   _setCardEventListeners = () => {
     this._likeButton.addEventListener ('click', () => {
       this._likePicture();
+      // console.log(this);
     });
 
     this._deleteButton.addEventListener('click', () => {
       this._deletePopupOpen();
+      // console.log(this);
     }
     );
 
@@ -71,15 +73,13 @@ export default class Card {
     });
   }
 
-  async _likePicture() {
+  _likePicture() {
     if (this._likeButton.classList.contains('element__like_active')) {
-      this._data = await api.deleteLike(this._cardId);
+      this._pictureDeleteLikeHandler(this._cardId, this._cardElement);
       this._likeButton.classList.toggle('element__like_active');
-      this._likeCount.textContent = this._data.likes.length;
     } else {
-      this._data = await api.likePicture(this._cardId);
       this._likeButton.classList.toggle('element__like_active');
-      this._likeCount.textContent = this._data.likes.length;
+      this._pictureLikeHandler(this._cardId, this._cardElement);
     }
   }
 
